@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project>
+
+        <property name="project.version" value="0.1" />
+
+        <property name="project.name" value="rapa" />
+        <property name="verbose" value="true" />
+        <property name="debug" value="true" />
+
+        <!-- Some folders -->
+        <property name="src.dir" value="rapa/src" />
+        <property name="dist.dir" value="rapa/dist" />
+        <property name="lib.dir" value="rapa/lib" />
+
+        <path id="project.classpath">
+                <fileset dir="${lib.dir}" includes="*.jar" />
+        </path>
+
+</project>
