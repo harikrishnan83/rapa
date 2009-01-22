@@ -14,9 +14,10 @@
 	<target name="compile" depends="init">
 		<echo>Compiling Restless</echo>
 		<javac classpathref="project.classpath" srcdir="${src.dir}" destdir="${dist.dir}/temp" debug="${debug}" compiler="modern" />
+		<javac classpathref="project.classpath" srcdir="${test.dir}" destdir="${dist.dir}/temp" debug="${debug}" compiler="modern" />
 	</target>
 
-	<target name="jar" depends="compile">
+	<target name="jar" depends="compile, test">
 		<jar basedir="${dist.dir}/${_temp}" destfile="${dist.dir}/${project.name}-${project.version}.jar">
 			<exclude name="**/*Test*" />
 		</jar>
@@ -24,6 +25,20 @@
 
 	<target name="clean">
 		<delete dir="${dist.dir}/${_temp}" />
+	</target>
+
+	<target name="test">
+		<junit showoutput="true">
+			<classpath>
+				<pathelement location="${dist.dir}/${_temp}" />
+				<pathelement location="${lib.dir}/junit.jar" />
+				<pathelement location="${lib.dir}/ant-junit.jar" />
+				<fileset dir="${lib.dir}" includes="*.jar" />
+			</classpath>
+			<formatter type="brief" usefile="false" />
+
+			<test name="org.rest.rapa.AllTests" haltonfailure="no" outfile="result" />
+		</junit>
 	</target>
 
 	<target name="dist" depends="clean, init, compile, jar">

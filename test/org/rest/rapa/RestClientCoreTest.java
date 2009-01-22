@@ -1,5 +1,7 @@
 package org.rest.rapa;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -16,12 +18,12 @@ import org.rest.rapa.resource.ResourceUtil;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class RestClientCoreTest {
+public class RestClientCoreTest extends TestCase {
 
 	private static final String URL = "url";
 
 	@Test
-	public void shouldThrowExceptionIfArgumentsAreInvalid() {
+	public void testShouldThrowExceptionIfArgumentsAreInvalid() {
 		try {
 			RestClientCore restClient = new RestClientCore("");
 			fail("Did not throw exception when arguments were null or empty string");
@@ -31,7 +33,7 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldGetResourceById() {
+	public void testShouldGetResourceById() {
 		RestClientCore restClient = restClient(URL, "username", "password");
 		
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
@@ -66,7 +68,7 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldSaveResource() {
+	public void testShouldSaveResource() {
 		RestClientCore restClient = restClient(URL, "username", "password");
 		// set up for writing
 
@@ -98,7 +100,7 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldUpdateResource() {
+	public void testShouldUpdateResource() {
 		RestClientCore restClient = restClient(URL, "username", "password");
 		// set up for writing
 
@@ -130,7 +132,7 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldDeleteResource() {
+	public void testShouldDeleteResource() {
 		RestClientCore restClient = restClient(URL, "username", "password");
 		// set up for writing
 

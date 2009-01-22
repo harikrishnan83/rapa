@@ -10,7 +10,7 @@ import org.rest.rapa.resource.ResourceUtil;
 
 import junit.framework.TestCase;
 
-public class RestClientutilTest {
+public class RestClientutilTest extends TestCase {
 
 	@Test
 	public void testShouldReturnNameValuePair() {
