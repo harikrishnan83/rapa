@@ -37,26 +37,35 @@ public class RestClientWrapper {
 		restClientCore.setHttpClientAdapter(httpClientAdapter);
 	}
 
-	public void save(Resource resource) throws RestClientException,
-			IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public void save(Resource resource) throws RestClientException {
 		try {
 			restClientCore.save(resource);
 		} catch (HttpException e) {
 			throw new RestClientException("Error while saving resource", e);
 		} catch (IOException e) {
 			throw new RestClientException("Error while saving resource", e);
+		} catch (IllegalArgumentException e) {
+			throw new RestClientException("Error while saving resource", e);
+		} catch (IllegalAccessException e) {
+			throw new RestClientException("Error while saving resource", e);
+		} catch (InvocationTargetException e) {
+			throw new RestClientException("Error while saving resource", e);
 		}
 	}
 
-	public void update(Resource resource) throws IllegalAccessException,
-			InvocationTargetException, Throwable {
+	public void update(Resource resource) throws RestClientException {
 		try {
 			restClientCore.update(resource);
 		} catch (HttpException e) {
 			throw new RestClientException("Error while updating resource", e);
 		} catch (IOException e) {
 			throw new RestClientException("Error while updating resource", e);
+		} catch (IllegalArgumentException e) {
+			throw new RestClientException("Error while saving resource", e);
+		} catch (IllegalAccessException e) {
+			throw new RestClientException("Error while saving resource", e);
+		} catch (InvocationTargetException e) {
+			throw new RestClientException("Error while saving resource", e);
 		}
 	}
 
