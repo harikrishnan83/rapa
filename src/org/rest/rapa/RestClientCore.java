@@ -1,14 +1,18 @@
 package org.rest.rapa;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.StringReader;
+import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.xml.bind.JAXB;
+import javax.xml.transform.Result;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -51,12 +55,13 @@ public class RestClientCore {
 		return ret;
 	}
 
-	private String postXML(NameValuePair[] nameValuePairs) throws HttpException,
+	private String postXML(String xml) throws HttpException,
 			IOException {
 		String ret = "";
 		log.debug("Creating POST method for the URL " + getURL());
 		PostMethod method = methodFactory.createPostMethod(getURL());
-		method.addParameters(nameValuePairs);
+		method.setRequestHeader("Content-type" , "text/xml");
+		method.setRequestBody(xml);
 
 		try {
 			int statusCode = getHttpClient().executeMethod(method);
@@ -73,13 +78,14 @@ public class RestClientCore {
 		return ret;
 	}
 
-	private String updateXML(NameValuePair[] nameValuePairs, int id)
+	private String updateXML(String xml, int id)
 			throws HttpException, IOException {
 		String ret = "";
 		log.debug("Creating PUT method for the URL " + getURL());
 		PutMethod method = methodFactory
 				.createPutMethod(getResourceSpecificURL(id));
-		method.setQueryString(nameValuePairs);
+		method.setRequestHeader("Content-type" , "text/xml");
+		method.setRequestBody(xml);
 
 		try {
 			int statusCode = getHttpClient().executeMethod(method);
@@ -144,11 +150,17 @@ public class RestClientCore {
 	}
 
 	public void save(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		this.postXML(getNameValuePairs(resource));
+		OutputStream outputStream = new ByteArrayOutputStream();
+		JAXB.marshal(resource, outputStream);
+		String xml = outputStream.toString();
+		this.postXML(xml);
 	}
 
 	public void update(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		updateXML(getNameValuePairs(resource), resource.getId());
+		OutputStream outputStream = new ByteArrayOutputStream();
+		JAXB.marshal(resource, outputStream);
+		String xml = outputStream.toString();
+		updateXML(xml, resource.getId());
 	}
 
 	public void delete(Resource customer) throws HttpException, IOException {

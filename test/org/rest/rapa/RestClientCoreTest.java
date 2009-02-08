@@ -1,5 +1,10 @@
 package org.rest.rapa;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+
+import javax.xml.bind.JAXB;
+
 import junit.framework.TestCase;
 
 import org.apache.commons.httpclient.HttpStatus;
@@ -35,7 +40,7 @@ public class RestClientCoreTest extends TestCase {
 	@Test
 	public void testShouldGetResourceById() {
 		RestClientCore restClient = restClient(URL, "username", "password");
-		
+
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		GetMethod mockGetMethod = mock(GetMethod.class);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
@@ -90,13 +95,21 @@ public class RestClientCoreTest extends TestCase {
 			restClient.save(resource);
 
 			verify(mockHttpClientAdapter).executeMethod(mockPostMethod);
-			verify(mockPostMethod).addParameters(ResourceUtil.getNameValuePairs(resource));
+			verify(mockPostMethod).setRequestHeader("Content-type" , "text/xml");
+			verify(mockPostMethod).setRequestBody(marshall(resource));
 			verify(mockPostMethod).releaseConnection();
 			verify(mockMethodFactory).createPostMethod("url.xml");
 		} catch (Exception e) {
 			fail("not expected");
 		}
 
+	}
+
+	private String marshall(Resource resource) {
+		OutputStream outputStream = new ByteArrayOutputStream();
+		JAXB.marshal(resource, outputStream);
+		String xml = outputStream.toString();
+		return xml;
 	}
 
 	@Test
@@ -122,7 +135,8 @@ public class RestClientCoreTest extends TestCase {
 			restClient.update(resource);
 
 			verify(mockHttpClientAdapter).executeMethod(mockPutMethod);
-			verify(mockPutMethod).setQueryString(ResourceUtil.getNameValuePairs(resource));
+			verify(mockPutMethod).setRequestHeader("Content-type" , "text/xml");
+			verify(mockPutMethod).setRequestBody(marshall(resource));
 			verify(mockPutMethod).releaseConnection();
 			verify(mockMethodFactory).createPutMethod("url/1.xml");
 		} catch (Exception e) {
