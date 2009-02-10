@@ -4,12 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.xml.bind.JAXB;
-import javax.xml.transform.Result;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -21,14 +18,20 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.rest.rapa.resource.Resource;
 
-import static org.rest.rapa.resource.ResourceUtil.*;
-
-public class RestClientCore {
+public class RestClientCore<ResourceType extends Resource> {
 
 	private String url = "";
 	private HttpClientAdapter httpClientAdapter = null;
 	private MethodFactory methodFactory = null;
 	private Log log = LogFactory.getLog(RestClientCore.class);
+	
+	public RestClientCore(String url) {
+		if (isNullOrEmptyString(url)) {
+			throw new IllegalArgumentException(
+					"URL cannot be null or empty String");
+		}
+		this.url = url;
+	}
 
 	private String getResourceSpecificURL(int id) {
 		return url + "/" + id + ".xml";
@@ -129,46 +132,39 @@ public class RestClientCore {
 			return httpClientAdapter;
 	}
 
-	public RestClientCore(String url) {
-		if (isNullOrEmptyString(url)) {
-			throw new IllegalArgumentException(
-					"URL cannot be null or empty String");
-		}
-		this.url = url;
-	}
-
 	private boolean isNullOrEmptyString(String string) {
 		return string == null || string.equals("");
 	}
 
-	public Object getById(int id, Class clazz) throws HttpException, IOException {
-		return JAXB.unmarshal(new StringReader(getXML(getResourceSpecificURL(id))), clazz);
+	public ResourceType getById(int id,Class<ResourceType> resourceType) throws HttpException, IOException {
+		return  JAXB.unmarshal(new StringReader(getXML(getResourceSpecificURL(id))),resourceType);
 	}
-
-	public void setMethodFactory(MethodFactory methodFactory) {
-		this.methodFactory = methodFactory;
-	}
-
-	public void save(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	
+	public void save(ResourceType resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
 		String xml = outputStream.toString();
 		this.postXML(xml);
 	}
 
-	public void update(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void update(ResourceType resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
 		String xml = outputStream.toString();
 		updateXML(xml, resource.getId());
 	}
 
-	public void delete(Resource customer) throws HttpException, IOException {
-		this.deleteXML(customer.getId());
+	public void delete(ResourceType resource) throws HttpException, IOException {
+		this.deleteXML(resource.getId());
 	}
 
 	public void setHttpClientAdapter(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}
+	
+	public void setMethodFactory(MethodFactory methodFactory) {
+		this.methodFactory = methodFactory;
+	}
+
 
 }

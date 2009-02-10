@@ -1,20 +1,21 @@
 package org.rest.rapa;
 
+import junit.framework.JUnit4TestAdapter;
+import junit.framework.Test;
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 import org.rest.rapa.resource.RestClientutilTest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+	MethodFactoryTest.class,
+	RestClientCoreTest.class,
+	RestClientutilTest.class
+})
 public class AllTests {
-
 	public static Test suite() {
-		TestSuite suite = new TestSuite("Test for org.rest.rapa");
-		//$JUnit-BEGIN$
-		suite.addTestSuite(MethodFactoryTest.class);
-		suite.addTestSuite(RestClientCoreTest.class);
-		suite.addTestSuite(RestClientutilTest.class);
-		//$JUnit-END$
-		return suite;
-	}
+		return new JUnit4TestAdapter(AllTests.class);
 
+	}
 }

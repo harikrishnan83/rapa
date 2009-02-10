@@ -7,12 +7,12 @@ import org.apache.commons.httpclient.methods.PutMethod;
 
 public interface MethodFactory {
 
-	public abstract GetMethod createGetMethod(String url);
+	public GetMethod createGetMethod(String url);
 
-	public abstract PostMethod createPostMethod(String url);
+	public PostMethod createPostMethod(String url);
 
-	public abstract DeleteMethod createDeleteMethod(String url);
+	public DeleteMethod createDeleteMethod(String url);
 
-	public abstract PutMethod createPutMethod(String url);
+	public PutMethod createPutMethod(String url);
 
 }

@@ -14,7 +14,7 @@ import org.apache.commons.httpclient.HttpMethod;
 
 public interface HttpClientAdapter {
 
-	public abstract int executeMethod(HttpMethod method) throws HttpException,
+	public int executeMethod(HttpMethod method) throws HttpException,
 			IOException;
 
 }

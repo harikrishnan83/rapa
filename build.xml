@@ -31,7 +31,7 @@
 		<junit showoutput="true">
 			<classpath>
 				<pathelement location="${dist.dir}/${_temp}" />
-				<pathelement location="${lib.dir}/junit.jar" />
+				<pathelement location="${lib.dir}/junit-4.5.jar" />
 				<pathelement location="${lib.dir}/ant-junit.jar" />
 				<fileset dir="${lib.dir}" includes="*.jar" />
 			</classpath>

@@ -1,9 +1,7 @@
 package org.rest.rapa.resource;
 
 public interface Resource {
-
-	public abstract int getId();
-
-	public abstract void setId(int i);
-
+	
+	public int getId();
+	public void setId(int i);
 }

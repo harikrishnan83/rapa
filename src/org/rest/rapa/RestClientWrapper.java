@@ -6,13 +6,15 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.commons.httpclient.HttpException;
 import org.rest.rapa.resource.Resource;
 
-public class RestClientWrapper {
 
-	private RestClientCore restClientCore;
+
+public class RestClientWrapper<ResourceType extends Resource> {
+
+	private RestClientCore<ResourceType> restClientCore;
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port) {
-		restClientCore = new RestClientCore(url);
+		restClientCore = new RestClientCore<ResourceType>(url);
 		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host, port);
 		restClientCore.setMethodFactory(new MethodFactoryImpl());
@@ -21,7 +23,7 @@ public class RestClientWrapper {
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme) {
-		restClientCore = new RestClientCore(url);
+		restClientCore = new RestClientCore<ResourceType>(url);
 		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host, port, scheme);
 		restClientCore.setMethodFactory(new MethodFactoryImpl());
@@ -30,14 +32,14 @@ public class RestClientWrapper {
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme, String realm) {
-		restClientCore = new RestClientCore(url);
+		restClientCore = new RestClientCore<ResourceType>(url);
 		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host, port, scheme, realm);
 		restClientCore.setMethodFactory(new MethodFactoryImpl());
 		restClientCore.setHttpClientAdapter(httpClientAdapter);
 	}
 
-	public void save(Resource resource) throws RestClientException {
+	public void save(ResourceType resource) throws RestClientException {
 		try {
 			restClientCore.save(resource);
 		} catch (HttpException e) {
@@ -53,7 +55,7 @@ public class RestClientWrapper {
 		}
 	}
 
-	public void update(Resource resource) throws RestClientException {
+	public void update(ResourceType resource) throws RestClientException {
 		try {
 			restClientCore.update(resource);
 		} catch (HttpException e) {
@@ -69,7 +71,7 @@ public class RestClientWrapper {
 		}
 	}
 
-	public void delete(Resource resource) throws RestClientException {
+	public void delete(ResourceType resource) throws RestClientException {
 		try {
 			restClientCore.delete(resource);
 		} catch (HttpException e) {
@@ -79,10 +81,10 @@ public class RestClientWrapper {
 		}
 	}
 
-	public Resource getById(int id, Class clazz) throws RestClientException {
-		Resource resource = null;
+	public ResourceType getById(int id, Class<ResourceType> type) throws RestClientException {
+		ResourceType resource = null;
 		try {
-			resource = (Resource) restClientCore.getById(id, clazz);
+			resource = restClientCore.getById(id, type);
 		} catch (HttpException e) {
 			throw new RestClientException("Error while getting resource", e);
 		} catch (IOException e) {
