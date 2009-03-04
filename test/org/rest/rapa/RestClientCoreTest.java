@@ -30,13 +30,13 @@ public class RestClientCoreTest{
 
 	@Test(expected = IllegalArgumentException.class)
 	public void ShouldThrowIllegalArgumntsExceptionIfAnEmptyStringIsPassed() {
-			new RestClientCore<Resource>("");
+			new RestClientCore("");
 			fail("hmm...RestClientCore is accepting an empty string..this isnt the way it should work!!");
 	}
 
 	@Test
 	public void shouldGetResourceById() {
-		RestClientCore<ResourceImpl> restClient = new RestClientCore<ResourceImpl>(URL);
+		RestClientCore restClient = new RestClientCore(URL);
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		restClient.setMethodFactory(mockMethodFactory);
@@ -54,7 +54,7 @@ public class RestClientCoreTest{
 
 			when(mockHttpClientAdapter.executeMethod(mockGetMethod))
 					.thenReturn(HttpStatus.SC_OK);
-			ResourceImpl resourceImpl = restClient.getById(1,
+			ResourceImpl resourceImpl = (ResourceImpl) restClient.getById(1,
 					ResourceImpl.class);
 			assertEquals(1, resourceImpl.getId());
 
@@ -70,7 +70,7 @@ public class RestClientCoreTest{
 
 	@Test
 	public void shouldSaveResource() {
-		RestClientCore<Resource> restClient = new RestClientCore<Resource>(URL);
+		RestClientCore restClient = new RestClientCore(URL);
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		restClient.setMethodFactory(mockMethodFactory);
@@ -101,7 +101,7 @@ public class RestClientCoreTest{
 
 	@Test
 	public void shouldUpdateResource() {		
-		RestClientCore<Resource> restClient = new RestClientCore<Resource>(URL);
+		RestClientCore restClient = new RestClientCore(URL);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		restClient.setMethodFactory(mockMethodFactory);
@@ -132,7 +132,7 @@ public class RestClientCoreTest{
 
 	@Test
 	public void shouldDeleteResource() {
-		RestClientCore<ResourceImpl> restClient = new RestClientCore<ResourceImpl>(URL);;
+		RestClientCore restClient = new RestClientCore(URL);;
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		restClient.setMethodFactory(mockMethodFactory);

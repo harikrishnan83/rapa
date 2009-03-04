@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.rest.rapa.resource.Resource;
 
-public class RestClientCore<ResourceType extends Resource> {
+public class RestClientCore {
 
 	private String url = "";
 	private HttpClientAdapter httpClientAdapter = null;
@@ -136,25 +136,25 @@ public class RestClientCore<ResourceType extends Resource> {
 		return string == null || string.equals("");
 	}
 
-	public ResourceType getById(int id,Class<ResourceType> resourceType) throws HttpException, IOException {
-		return  JAXB.unmarshal(new StringReader(getXML(getResourceSpecificURL(id))),resourceType);
+	public Resource getById(int id,Class resource) throws HttpException, IOException {
+		return  (Resource)JAXB.unmarshal(new StringReader(getXML(getResourceSpecificURL(id))),resource);
 	}
 	
-	public void save(ResourceType resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void save(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
 		String xml = outputStream.toString();
 		this.postXML(xml);
 	}
 
-	public void update(ResourceType resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void update(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
 		String xml = outputStream.toString();
 		updateXML(xml, resource.getId());
 	}
 
-	public void delete(ResourceType resource) throws HttpException, IOException {
+	public void delete(Resource resource) throws HttpException, IOException {
 		this.deleteXML(resource.getId());
 	}
 
