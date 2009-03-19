@@ -1,12 +1,7 @@
 package org.rest.rapa;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.StringReader;
 import java.lang.reflect.InvocationTargetException;
-
-import javax.xml.bind.JAXB;
 
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -16,6 +11,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 
 public class RestClientCore {
@@ -24,6 +20,7 @@ public class RestClientCore {
 	private HttpClientAdapter httpClientAdapter = null;
 	private MethodFactory methodFactory = null;
 	private Log log = LogFactory.getLog(RestClientCore.class);
+	private FormatHandler formatHandler;
 	
 	public RestClientCore(String url) {
 		if (isNullOrEmptyString(url)) {
@@ -34,7 +31,7 @@ public class RestClientCore {
 	}
 
 	private String getResourceSpecificURL(int id) {
-		return url + "/" + id + ".xml";
+		return url + "/" + id + "." + this.formatHandler.getExtension();
 	}
 
 	private String getXML(String resourceSpecificURL) throws HttpException,
@@ -125,7 +122,7 @@ public class RestClientCore {
 	}
 
 	private String getURL() {
-		return url + ".xml";
+		return url + "." + this.formatHandler.getExtension();
 	}
 
 	private HttpClientAdapter getHttpClient() {
@@ -137,21 +134,21 @@ public class RestClientCore {
 	}
 
 	public Resource getById(int id,Class resource) throws HttpException, IOException {
-		return  (Resource)JAXB.unmarshal(new StringReader(getXML(getResourceSpecificURL(id))),resource);
+		return this.formatHandler.decode(getXML(getResourceSpecificURL(id)), resource);
 	}
 	
 	public void save(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		OutputStream outputStream = new ByteArrayOutputStream();
-		JAXB.marshal(resource, outputStream);
-		String xml = outputStream.toString();
+		String xml = encodeToXml(resource);
 		this.postXML(xml);
 	}
 
 	public void update(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		OutputStream outputStream = new ByteArrayOutputStream();
-		JAXB.marshal(resource, outputStream);
-		String xml = outputStream.toString();
+		String xml = encodeToXml(resource);
 		updateXML(xml, resource.getId());
+	}
+
+	private String encodeToXml(Resource resource) {
+		return this.formatHandler.encode(resource);
 	}
 
 	public void delete(Resource resource) throws HttpException, IOException {
@@ -164,6 +161,10 @@ public class RestClientCore {
 	
 	public void setMethodFactory(MethodFactory methodFactory) {
 		this.methodFactory = methodFactory;
+	}
+	
+	public void setFormatHandler(FormatHandler formatHandlerValue) {
+		this.formatHandler = formatHandlerValue;
 	}
 
 

@@ -12,15 +12,16 @@ import org.junit.Test;
 import org.rest.rapa.HttpClientAdapter;
 import org.rest.rapa.MethodFactory;
 import org.rest.rapa.RestClientCore;
+import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 import static org.mockito.Mockito.*;
 import static org.junit.Assert.*;
 
-public class RestClientCoreTest{
+public class RestClientCoreTest {
 
 	private static final String URL = "url";
-	
+
 	private String marshall(Resource resource) {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
@@ -30,8 +31,8 @@ public class RestClientCoreTest{
 
 	@Test(expected = IllegalArgumentException.class)
 	public void ShouldThrowIllegalArgumntsExceptionIfAnEmptyStringIsPassed() {
-			new RestClientCore("");
-			fail("hmm...RestClientCore is accepting an empty string..this isnt the way it should work!!");
+		new RestClientCore("");
+		fail("hmm...RestClientCore is accepting an empty string..this isnt the way it should work!!");
 	}
 
 	@Test
@@ -41,11 +42,24 @@ public class RestClientCoreTest{
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		restClient.setMethodFactory(mockMethodFactory);
 		restClient.setHttpClientAdapter(mockHttpClientAdapter);
-		
-		GetMethod mockGetMethod = mock(GetMethod.class);		
+
+		GetMethod mockGetMethod = mock(GetMethod.class);
 		when(mockMethodFactory.createGetMethod("url/1.xml")).thenReturn(
 				mockGetMethod);
 
+		FormatHandler mockFormatHandler = mock(FormatHandler.class);
+		Resource resource = new ResourceImpl();
+		resource.setId(1);
+		
+		restClient.setFormatHandler(mockFormatHandler);
+		
+		when(
+				mockFormatHandler.decode(
+						"<resource><id type=\"integer\">1</id></resource>",
+						ResourceImpl.class)).thenReturn(resource);
+
+		when(mockFormatHandler.getExtension()).thenReturn("xml");
+		
 		try {
 			when(mockGetMethod.getResponseBody()).thenReturn(
 					new String(
@@ -63,6 +77,7 @@ public class RestClientCoreTest{
 			verify(mockGetMethod).releaseConnection();
 			verify(mockMethodFactory).createGetMethod("url/1.xml");
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail("not expected");
 		}
 
@@ -75,10 +90,13 @@ public class RestClientCoreTest{
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		restClient.setMethodFactory(mockMethodFactory);
 		restClient.setHttpClientAdapter(mockHttpClientAdapter);
-		
+
 		PostMethod mockPostMethod = mock(PostMethod.class);
 		when(mockMethodFactory.createPostMethod("url.xml")).thenReturn(
 				mockPostMethod);
+
+		FormatHandler mockFormatHandler = mock(FormatHandler.class);
+		restClient.setFormatHandler(mockFormatHandler);
 		
 		try {
 
@@ -86,10 +104,12 @@ public class RestClientCoreTest{
 					.thenReturn(HttpStatus.SC_CREATED);
 
 			Resource resource = new ResourceImpl();
+			when(mockFormatHandler.encode(resource)).thenReturn(marshall(resource));
+			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.save(resource);
 
 			verify(mockHttpClientAdapter).executeMethod(mockPostMethod);
-			verify(mockPostMethod).setRequestHeader("Content-type" , "text/xml");
+			verify(mockPostMethod).setRequestHeader("Content-type", "text/xml");
 			verify(mockPostMethod).setRequestBody(marshall(resource));
 			verify(mockPostMethod).releaseConnection();
 			verify(mockMethodFactory).createPostMethod("url.xml");
@@ -100,7 +120,7 @@ public class RestClientCoreTest{
 	}
 
 	@Test
-	public void shouldUpdateResource() {		
+	public void shouldUpdateResource() {
 		RestClientCore restClient = new RestClientCore(URL);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
@@ -110,6 +130,9 @@ public class RestClientCoreTest{
 		PutMethod mockPutMethod = mock(PutMethod.class);
 		when(mockMethodFactory.createPutMethod("url/1.xml")).thenReturn(
 				mockPutMethod);
+
+		FormatHandler mockFormatHandler = mock(FormatHandler.class);
+		restClient.setFormatHandler(mockFormatHandler);
 		
 		try {
 			when(mockHttpClientAdapter.executeMethod(mockPutMethod))
@@ -117,10 +140,12 @@ public class RestClientCoreTest{
 
 			Resource resource = new ResourceImpl();
 			resource.setId(1);
+			when(mockFormatHandler.encode(resource)).thenReturn(marshall(resource));
+			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.update(resource);
 
 			verify(mockHttpClientAdapter).executeMethod(mockPutMethod);
-			verify(mockPutMethod).setRequestHeader("Content-type" , "text/xml");
+			verify(mockPutMethod).setRequestHeader("Content-type", "text/xml");
 			verify(mockPutMethod).setRequestBody(marshall(resource));
 			verify(mockPutMethod).releaseConnection();
 			verify(mockMethodFactory).createPutMethod("url/1.xml");
@@ -132,7 +157,8 @@ public class RestClientCoreTest{
 
 	@Test
 	public void shouldDeleteResource() {
-		RestClientCore restClient = new RestClientCore(URL);;
+		RestClientCore restClient = new RestClientCore(URL);
+		;
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		MethodFactory mockMethodFactory = mock(MethodFactory.class);
 		restClient.setMethodFactory(mockMethodFactory);
@@ -142,6 +168,11 @@ public class RestClientCoreTest{
 		when(mockMethodFactory.createDeleteMethod("url/1.xml")).thenReturn(
 				mockDeleteMethod);
 
+		FormatHandler mockFormatHandler = mock(FormatHandler.class);
+		restClient.setFormatHandler(mockFormatHandler);
+		
+		when(mockFormatHandler.getExtension()).thenReturn("xml");
+		
 		try {
 
 			when(mockHttpClientAdapter.executeMethod(mockDeleteMethod))
