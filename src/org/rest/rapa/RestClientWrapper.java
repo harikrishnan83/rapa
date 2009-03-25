@@ -4,32 +4,32 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.httpclient.HttpException;
-import org.rest.rapa.formatter.XMLHandler;
 import org.rest.rapa.resource.Resource;
 
 public class RestClientWrapper {
 
 	private RestClientCore restClientCore;
+	private FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
 
 	public RestClientWrapper(String url, String username, String password,
-			String host, int port) {
+			String host, int port, String format) {
 		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
 				username, password, host, port), new MethodFactoryImpl(),
-				new XMLHandler());
+				formatHandlerFactory.create(format));
 	}
 
 	public RestClientWrapper(String url, String username, String password,
-			String host, int port, String scheme) {
+			String host, int port, String scheme, String format) {
 		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
 				username, password, host, port, scheme),
-				new MethodFactoryImpl(), new XMLHandler());
+				new MethodFactoryImpl(), formatHandlerFactory.create(format));
 	}
 
 	public RestClientWrapper(String url, String username, String password,
-			String host, int port, String scheme, String realm) {
+			String host, int port, String scheme, String realm, String format) {
 		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
 				username, password, host, port, scheme, realm),
-				new MethodFactoryImpl(), new XMLHandler());
+				new MethodFactoryImpl(), formatHandlerFactory.create(format));
 	}
 
 	public void save(Resource resource) throws RestClientException {
