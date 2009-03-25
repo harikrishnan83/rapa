@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.httpclient.HttpException;
+import org.rest.rapa.formatter.XMLHandler;
 import org.rest.rapa.resource.Resource;
 
 
@@ -14,29 +15,35 @@ public class RestClientWrapper {
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port) {
-		restClientCore = new RestClientCore(url);
-		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
+		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
+				username, password, host, port), new MethodFactoryImpl(), new XMLHandler());
+		/*HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host, port);
 		restClientCore.setMethodFactory(new MethodFactoryImpl());
 		restClientCore.setHttpClientAdapter(httpClientAdapter);
+		restClientCore.setFormatHandler(new XMLHandler());*/
 	}
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme) {
-		restClientCore = new RestClientCore(url);
-		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
+		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
+				username, password, host, port, scheme), new MethodFactoryImpl(), new XMLHandler());
+/*		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host, port, scheme);
 		restClientCore.setMethodFactory(new MethodFactoryImpl());
 		restClientCore.setHttpClientAdapter(httpClientAdapter);
+		restClientCore.setFormatHandler(new XMLHandler());*/
 	}
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme, String realm) {
-		restClientCore = new RestClientCore(url);
-		HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
+		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
+				username, password, host, port, scheme, realm), new MethodFactoryImpl(), new XMLHandler());
+		/*HttpClientAdapter httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host, port, scheme, realm);
 		restClientCore.setMethodFactory(new MethodFactoryImpl());
 		restClientCore.setHttpClientAdapter(httpClientAdapter);
+		restClientCore.setFormatHandler(new XMLHandler());*/
 	}
 
 	public void save(Resource resource) throws RestClientException {

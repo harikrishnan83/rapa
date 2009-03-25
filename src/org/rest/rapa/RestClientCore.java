@@ -21,13 +21,17 @@ public class RestClientCore {
 	private MethodFactory methodFactory = null;
 	private Log log = LogFactory.getLog(RestClientCore.class);
 	private FormatHandler formatHandler;
-	
-	public RestClientCore(String url) {
+
+	public RestClientCore(String url, HttpClientAdapter httpClientAdapter,
+			MethodFactory methodFactory, FormatHandler formatHandler) {
 		if (isNullOrEmptyString(url)) {
 			throw new IllegalArgumentException(
 					"URL cannot be null or empty String");
 		}
 		this.url = url;
+		this.httpClientAdapter = httpClientAdapter;
+		this.methodFactory = methodFactory;
+		this.formatHandler = formatHandler;
 	}
 
 	private String getResourceSpecificURL(int id) {
@@ -55,12 +59,11 @@ public class RestClientCore {
 		return ret;
 	}
 
-	private String postXML(String xml) throws HttpException,
-			IOException {
+	private String postXML(String xml) throws HttpException, IOException {
 		String ret = "";
 		log.debug("Creating POST method for the URL " + getURL());
 		PostMethod method = methodFactory.createPostMethod(getURL());
-		method.setRequestHeader("Content-type" , "text/xml");
+		method.setRequestHeader("Content-type", "text/xml");
 		method.setRequestBody(xml);
 
 		try {
@@ -78,13 +81,13 @@ public class RestClientCore {
 		return ret;
 	}
 
-	private String updateXML(String xml, int id)
-			throws HttpException, IOException {
+	private String updateXML(String xml, int id) throws HttpException,
+			IOException {
 		String ret = "";
 		log.debug("Creating PUT method for the URL " + getURL());
 		PutMethod method = methodFactory
 				.createPutMethod(getResourceSpecificURL(id));
-		method.setRequestHeader("Content-type" , "text/xml");
+		method.setRequestHeader("Content-type", "text/xml");
 		method.setRequestBody(xml);
 
 		try {
@@ -126,23 +129,29 @@ public class RestClientCore {
 	}
 
 	private HttpClientAdapter getHttpClient() {
-			return httpClientAdapter;
+		return httpClientAdapter;
 	}
 
 	private boolean isNullOrEmptyString(String string) {
 		return string == null || string.equals("");
 	}
 
-	public Resource getById(int id,Class resource) throws HttpException, IOException {
-		return this.formatHandler.decode(getXML(getResourceSpecificURL(id)), resource);
+	public Resource getById(int id, Class resource) throws HttpException,
+			IOException {
+		return this.formatHandler.decode(getXML(getResourceSpecificURL(id)),
+				resource);
 	}
-	
-	public void save(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+
+	public void save(Resource resource) throws HttpException, IOException,
+			IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException {
 		String xml = encodeToXml(resource);
 		this.postXML(xml);
 	}
 
-	public void update(Resource resource) throws HttpException, IOException, IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void update(Resource resource) throws HttpException, IOException,
+			IllegalArgumentException, IllegalAccessException,
+			InvocationTargetException {
 		String xml = encodeToXml(resource);
 		updateXML(xml, resource.getId());
 	}
@@ -158,14 +167,13 @@ public class RestClientCore {
 	public void setHttpClientAdapter(HttpClientAdapter httpClientAdapter) {
 		this.httpClientAdapter = httpClientAdapter;
 	}
-	
+
 	public void setMethodFactory(MethodFactory methodFactory) {
 		this.methodFactory = methodFactory;
 	}
-	
+
 	public void setFormatHandler(FormatHandler formatHandlerValue) {
 		this.formatHandler = formatHandlerValue;
 	}
-
 
 }

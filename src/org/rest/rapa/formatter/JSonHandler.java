@@ -2,7 +2,7 @@ package org.rest.rapa.formatter;
 
 import org.rest.rapa.resource.Resource;
 
-public class JSonFormatHandler implements FormatHandler {
+public class JSonHandler implements FormatHandler {
 
 	@Override
 	public Resource decode(String content, Class resourceType) {

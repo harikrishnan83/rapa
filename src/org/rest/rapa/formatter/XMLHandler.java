@@ -8,7 +8,7 @@ import javax.xml.bind.JAXB;
 
 import org.rest.rapa.resource.Resource;
 
-public class DefaultXMLFormatHandler implements FormatHandler {
+public class XMLHandler implements FormatHandler {
 
 	@Override
 	public Resource decode(String content, Class clazz) {
