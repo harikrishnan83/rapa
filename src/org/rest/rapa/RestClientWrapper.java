@@ -45,6 +45,8 @@ public class RestClientWrapper {
 			throw new RestClientException("Error while saving resource", e);
 		} catch (InvocationTargetException e) {
 			throw new RestClientException("Error while saving resource", e);
+		} catch (Exception e) {
+			throw new RestClientException("Error while saving resource", e);
 		}
 	}
 
@@ -60,6 +62,8 @@ public class RestClientWrapper {
 		} catch (IllegalAccessException e) {
 			throw new RestClientException("Error while saving resource", e);
 		} catch (InvocationTargetException e) {
+			throw new RestClientException("Error while saving resource", e);
+		} catch (Exception e) {
 			throw new RestClientException("Error while saving resource", e);
 		}
 	}
@@ -81,6 +85,8 @@ public class RestClientWrapper {
 		} catch (HttpException e) {
 			throw new RestClientException("Error while getting resource", e);
 		} catch (IOException e) {
+			throw new RestClientException("Error while getting resource", e);
+		} catch (Exception e) {
 			throw new RestClientException("Error while getting resource", e);
 		}
 		return resource;

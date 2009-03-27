@@ -136,27 +136,22 @@ public class RestClientCore {
 		return string == null || string.equals("");
 	}
 
-	public Resource getById(int id, Class resource) throws HttpException,
-			IOException {
+	public Resource getById(int id, Class resource) throws Exception {
 		return this.formatHandler.decode(getXML(getResourceSpecificURL(id)),
 				resource);
 	}
 
-	public void save(Resource resource) throws HttpException, IOException,
-			IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public void save(Resource resource) throws Exception {
 		String xml = encodeToXml(resource);
 		this.postXML(xml);
 	}
 
-	public void update(Resource resource) throws HttpException, IOException,
-			IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
+	public void update(Resource resource) throws Exception {
 		String xml = encodeToXml(resource);
 		updateXML(xml, resource.getId());
 	}
 
-	private String encodeToXml(Resource resource) {
+	private String encodeToXml(Resource resource) throws Exception {
 		return this.formatHandler.encode(resource);
 	}
 

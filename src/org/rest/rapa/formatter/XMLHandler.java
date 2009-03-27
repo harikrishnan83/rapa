@@ -10,19 +10,16 @@ import org.rest.rapa.resource.Resource;
 
 public class XMLHandler implements FormatHandler {
 
-	@Override
 	public Resource decode(String content, Class clazz) {
 		return (Resource)JAXB.unmarshal(new StringReader(content), clazz);
 	}
 
-	@Override
 	public String encode(Resource resource) {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
 		return outputStream.toString();
 	}
 
-	@Override
 	public String getExtension() {
 		return "xml";
 	}

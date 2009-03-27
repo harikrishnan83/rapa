@@ -50,17 +50,17 @@ public class RestClientCoreTest {
 		Resource resource = new ResourceImpl();
 		resource.setId(1);
 
-		when(
-				mockFormatHandler.decode(
-						"<resource><id type=\"integer\">1</id></resource>",
-						ResourceImpl.class)).thenReturn(resource);
-
-		RestClientCore restClient = new RestClientCore(URL,
-				mockHttpClientAdapter, mockMethodFactory, mockFormatHandler);
-
-		when(mockFormatHandler.getExtension()).thenReturn("xml");
-
 		try {
+			when(
+					mockFormatHandler.decode(
+							"<resource><id type=\"integer\">1</id></resource>",
+							ResourceImpl.class)).thenReturn(resource);
+
+			RestClientCore restClient = new RestClientCore(URL,
+					mockHttpClientAdapter, mockMethodFactory, mockFormatHandler);
+
+			when(mockFormatHandler.getExtension()).thenReturn("xml");
+
 			when(mockGetMethod.getResponseBody()).thenReturn(
 					new String(
 							"<resource><id type=\"integer\">1</id></resource>")
