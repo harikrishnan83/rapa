@@ -13,23 +13,19 @@ public class RestClientWrapper {
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String format) {
-		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
-				username, password, host, port), new MethodFactoryImpl(),
-				formatHandlerFactory.create(format));
+		restClientCore = new RestClientCore(url, formatHandlerFactory.create(format), null);
 	}
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme, String format) {
-		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
-				username, password, host, port, scheme),
-				new MethodFactoryImpl(), formatHandlerFactory.create(format));
+		restClientCore = new RestClientCore(url, formatHandlerFactory.create(format),
+				null);
 	}
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme, String realm, String format) {
-		restClientCore = new RestClientCore(url, new HttpClientAdapterImpl(
-				username, password, host, port, scheme, realm),
-				new MethodFactoryImpl(), formatHandlerFactory.create(format));
+		restClientCore = new RestClientCore(url, formatHandlerFactory.create(format),
+				null);
 	}
 
 	public void save(Resource resource) throws RestClientException {

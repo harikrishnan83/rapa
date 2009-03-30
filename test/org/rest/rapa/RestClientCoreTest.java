@@ -1,8 +1,11 @@
 package org.rest.rapa;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import javax.xml.bind.JAXB;
+
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -37,15 +40,12 @@ public class RestClientCoreTest {
 	 */
 
 	@Test
-	public void shouldGetResourceById() {
-		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
-		MethodFactory mockMethodFactory = mock(MethodFactory.class);
-
-		GetMethod mockGetMethod = mock(GetMethod.class);
-		when(mockMethodFactory.createGetMethod("url/1.xml")).thenReturn(
-				mockGetMethod);
+	public void shouldGetResourceById() throws HttpException, IOException {
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
+		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);
+		
+		when(mockHttpMethodExecutor.get(URL + "/1.xml")).thenReturn("<resource><id type=\"integer\">1</id></resource>");
 
 		Resource resource = new ResourceImpl();
 		resource.setId(1);
@@ -57,25 +57,15 @@ public class RestClientCoreTest {
 							ResourceImpl.class)).thenReturn(resource);
 
 			RestClientCore restClient = new RestClientCore(URL,
-					mockHttpClientAdapter, mockMethodFactory, mockFormatHandler);
+					mockFormatHandler, mockHttpMethodExecutor);
 
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 
-			when(mockGetMethod.getResponseBody()).thenReturn(
-					new String(
-							"<resource><id type=\"integer\">1</id></resource>")
-							.getBytes());
-
-			when(mockHttpClientAdapter.executeMethod(mockGetMethod))
-					.thenReturn(HttpStatus.SC_OK);
 			ResourceImpl resourceImpl = (ResourceImpl) restClient.getById(1,
 					ResourceImpl.class);
 			assertEquals(1, resourceImpl.getId());
 
-			verify(mockHttpClientAdapter).executeMethod(mockGetMethod);
-			verify(mockGetMethod).getResponseBody();
-			verify(mockGetMethod).releaseConnection();
-			verify(mockMethodFactory).createGetMethod("url/1.xml");
+			verify(mockHttpMethodExecutor).get(URL + "/1.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("not expected");
@@ -85,32 +75,21 @@ public class RestClientCoreTest {
 
 	@Test
 	public void shouldSaveResource() {
-		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
-		MethodFactory mockMethodFactory = mock(MethodFactory.class);
-
-		PostMethod mockPostMethod = mock(PostMethod.class);
-		when(mockMethodFactory.createPostMethod("url.xml")).thenReturn(
-				mockPostMethod);
-
+		
+		HttpMethodExecutor mockedHttpMethodExecutor = mock(HttpMethodExecutor.class);
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
 		RestClientCore restClient = new RestClientCore(URL,
-				mockHttpClientAdapter, mockMethodFactory, mockFormatHandler);
+				mockFormatHandler, mockedHttpMethodExecutor);
 		try {
-
-			when(mockHttpClientAdapter.executeMethod(mockPostMethod))
-					.thenReturn(HttpStatus.SC_CREATED);
 
 			Resource resource = new ResourceImpl();
 			when(mockFormatHandler.encode(resource)).thenReturn(
 					marshall(resource));
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.save(resource);
+			
+			verify(mockedHttpMethodExecutor).post(marshall(resource), URL + ".xml");
 
-			verify(mockHttpClientAdapter).executeMethod(mockPostMethod);
-			verify(mockPostMethod).setRequestHeader("Content-type", "text/xml");
-			verify(mockPostMethod).setRequestBody(marshall(resource));
-			verify(mockPostMethod).releaseConnection();
-			verify(mockMethodFactory).createPostMethod("url.xml");
 		} catch (Exception e) {
 			fail("not expected");
 		}
@@ -119,19 +98,12 @@ public class RestClientCoreTest {
 
 	@Test
 	public void shouldUpdateResource() {
-		MethodFactory mockMethodFactory = mock(MethodFactory.class);
-		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
-
-		PutMethod mockPutMethod = mock(PutMethod.class);
-		when(mockMethodFactory.createPutMethod("url/1.xml")).thenReturn(
-				mockPutMethod);
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
+		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);
 		RestClientCore restClient = new RestClientCore(URL,
-				mockHttpClientAdapter, mockMethodFactory, mockFormatHandler);
+				mockFormatHandler, mockHttpMethodExecutor);
 		try {
-			when(mockHttpClientAdapter.executeMethod(mockPutMethod))
-					.thenReturn(HttpStatus.SC_ACCEPTED);
 
 			Resource resource = new ResourceImpl();
 			resource.setId(1);
@@ -140,11 +112,7 @@ public class RestClientCoreTest {
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.update(resource);
 
-			verify(mockHttpClientAdapter).executeMethod(mockPutMethod);
-			verify(mockPutMethod).setRequestHeader("Content-type", "text/xml");
-			verify(mockPutMethod).setRequestBody(marshall(resource));
-			verify(mockPutMethod).releaseConnection();
-			verify(mockMethodFactory).createPutMethod("url/1.xml");
+			verify(mockHttpMethodExecutor).update(marshall(resource), URL + "/1.xml");
 		} catch (Exception e) {
 			fail("not expected" + e.getMessage());
 		}
@@ -153,30 +121,22 @@ public class RestClientCoreTest {
 
 	@Test
 	public void shouldDeleteResource() {
-		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
-		MethodFactory mockMethodFactory = mock(MethodFactory.class);
-
-		DeleteMethod mockDeleteMethod = mock(DeleteMethod.class);
-		when(mockMethodFactory.createDeleteMethod("url/1.xml")).thenReturn(
-				mockDeleteMethod);
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
 
 		when(mockFormatHandler.getExtension()).thenReturn("xml");
+		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);
 		RestClientCore restClient = new RestClientCore(URL,
-				mockHttpClientAdapter, mockMethodFactory, mockFormatHandler);
+				mockFormatHandler, mockHttpMethodExecutor);
 		try {
 
-			when(mockHttpClientAdapter.executeMethod(mockDeleteMethod))
-					.thenReturn(HttpStatus.SC_OK);
 
 			ResourceImpl resource = new ResourceImpl();
 			resource.setId(1);
 			restClient.delete(resource);
+			
+			verify(mockHttpMethodExecutor).delete(URL + "/1.xml");
 
-			verify(mockHttpClientAdapter).executeMethod(mockDeleteMethod);
-			verify(mockDeleteMethod).releaseConnection();
-			verify(mockMethodFactory).createDeleteMethod("url/1.xml");
 		} catch (Exception e) {
 			fail("not expected");
 		}

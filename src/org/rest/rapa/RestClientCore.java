@@ -11,12 +11,11 @@ public class RestClientCore {
 	private FormatHandler formatHandler;
 	private HttpMethodExecutor httpMethodExecutor;
 
-	public RestClientCore(String url, HttpClientAdapter httpClientAdapter,
-			MethodFactory methodFactory, FormatHandler formatHandler) {
+	public RestClientCore(String url, FormatHandler formatHandler,
+			HttpMethodExecutor httpMethodExecutor) {
 		this.url = url;
 		this.formatHandler = formatHandler;
-		httpMethodExecutor = new HttpMethodExecutor(methodFactory,
-				httpClientAdapter);
+		this.httpMethodExecutor = httpMethodExecutor;
 	}
 
 	private String getResourceSpecificURL(int id) {
@@ -29,17 +28,17 @@ public class RestClientCore {
 
 	public Resource getById(int id, Class resource) throws Exception {
 		return this.formatHandler.decode(httpMethodExecutor
-				.getXML(getResourceSpecificURL(id)), resource);
+				.get(getResourceSpecificURL(id)), resource);
 	}
 
 	public void save(Resource resource) throws Exception {
 		String xml = encode(resource);
-		httpMethodExecutor.postXML(xml, getURL());
+		httpMethodExecutor.post(xml, getURL());
 	}
 
 	public void update(Resource resource) throws Exception {
 		String xml = encode(resource);
-		httpMethodExecutor.updateXML(xml, getResourceSpecificURL(resource
+		httpMethodExecutor.update(xml, getResourceSpecificURL(resource
 				.getId()));
 	}
 
@@ -48,7 +47,7 @@ public class RestClientCore {
 	}
 
 	public void delete(Resource resource) throws HttpException, IOException {
-		httpMethodExecutor.deleteXML(getResourceSpecificURL(resource.getId()));
+		httpMethodExecutor.delete(getResourceSpecificURL(resource.getId()));
 	}
 
 }

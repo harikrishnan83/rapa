@@ -20,7 +20,8 @@ public class HttpMethodExecutor {
 		this.httpClientAdapter = httpClientAdapter;
 	}
 
-	String getXML(String resourceSpecificURL) throws HttpException, IOException {
+	public String get(String resourceSpecificURL) throws HttpException,
+			IOException {
 		String ret = "";
 		GetMethod method = methodFactory.createGetMethod(resourceSpecificURL);
 		try {
@@ -43,8 +44,7 @@ public class HttpMethodExecutor {
 		return httpClientAdapter;
 	}
 
-	String postXML(String xml, String url) throws HttpException, IOException {
-		String ret = "";
+	void post(String xml, String url) throws HttpException, IOException {
 		PostMethod method = methodFactory.createPostMethod(url);
 		method.setRequestHeader("Content-type", "text/xml");
 		method.setRequestBody(xml);
@@ -60,12 +60,9 @@ public class HttpMethodExecutor {
 		} finally {
 			method.releaseConnection();
 		}
-
-		return ret;
 	}
 
-	String updateXML(String xml, String url) throws HttpException, IOException {
-		String ret = "";
+	void update(String xml, String url) throws HttpException, IOException {
 		PutMethod method = methodFactory.createPutMethod(url);
 		method.setRequestHeader("Content-type", "text/xml");
 		method.setRequestBody(xml);
@@ -82,10 +79,9 @@ public class HttpMethodExecutor {
 			method.releaseConnection();
 		}
 
-		return ret;
 	}
 
-	void deleteXML(String url) throws HttpException, IOException {
+	void delete(String url) throws HttpException, IOException {
 		DeleteMethod method = methodFactory.createDeleteMethod(url);
 
 		try {
