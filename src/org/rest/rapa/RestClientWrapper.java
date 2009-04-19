@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.DeleteMethod;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.PutMethod;
 import org.rest.rapa.resource.Resource;
 
 public class RestClientWrapper {
@@ -13,19 +17,29 @@ public class RestClientWrapper {
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String format) {
-		restClientCore = new RestClientCore(url, formatHandlerFactory.create(format), null);
+		restClientCore = new RestClientCore(url, formatHandlerFactory
+				.create(format), new HttpMethodExecutor(
+				new HttpClientAdapterImpl(username, password, host, port),
+				new GetMethod(), new PostMethod(), new DeleteMethod(),
+				new PutMethod()));
 	}
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme, String format) {
-		restClientCore = new RestClientCore(url, formatHandlerFactory.create(format),
-				null);
+		restClientCore = new RestClientCore(url, formatHandlerFactory
+				.create(format), new HttpMethodExecutor(
+				new HttpClientAdapterImpl(username, password, host, port,
+						scheme), new GetMethod(), new PostMethod(),
+				new DeleteMethod(), new PutMethod()));
 	}
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String scheme, String realm, String format) {
-		restClientCore = new RestClientCore(url, formatHandlerFactory.create(format),
-				null);
+		restClientCore = new RestClientCore(url, formatHandlerFactory
+				.create(format), new HttpMethodExecutor(
+				new HttpClientAdapterImpl(username, password, host, port,
+						realm, scheme), new GetMethod(), new PostMethod(),
+				new DeleteMethod(), new PutMethod()));
 	}
 
 	public void save(Resource resource) throws RestClientException {

@@ -1,6 +1,9 @@
 package org.rest.rapa;
 
 import java.io.IOException;
+
+import javax.sound.sampled.spi.FormatConversionProvider;
+
 import org.apache.commons.httpclient.HttpException;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
@@ -32,14 +35,16 @@ public class RestClientCore {
 	}
 
 	public void save(Resource resource) throws Exception {
-		String xml = encode(resource);
-		httpMethodExecutor.post(xml, getURL());
+		String encodedResource = encode(resource);
+		httpMethodExecutor.post(encodedResource, getURL(), formatHandler
+				.getContentType());
 	}
 
 	public void update(Resource resource) throws Exception {
 		String xml = encode(resource);
-		httpMethodExecutor.update(xml, getResourceSpecificURL(resource
-				.getId()));
+		httpMethodExecutor.update(xml,
+				getResourceSpecificURL(resource.getId()), formatHandler
+						.getContentType());
 	}
 
 	private String encode(Resource resource) throws Exception {

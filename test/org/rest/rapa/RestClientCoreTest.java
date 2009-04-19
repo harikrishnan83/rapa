@@ -5,23 +5,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import javax.xml.bind.JAXB;
 
+import junit.framework.TestCase;
+
 import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Test;
-import org.rest.rapa.HttpClientAdapter;
-import org.rest.rapa.MethodFactory;
 import org.rest.rapa.RestClientCore;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
 
-public class RestClientCoreTest {
+public class RestClientCoreTest extends TestCase {
 
 	private static final String URL = "url";
 
@@ -40,12 +34,13 @@ public class RestClientCoreTest {
 	 */
 
 	@Test
-	public void shouldGetResourceById() throws HttpException, IOException {
+	public void testShouldGetResourceById() throws HttpException, IOException {
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
 		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);
-		
-		when(mockHttpMethodExecutor.get(URL + "/1.xml")).thenReturn("<resource><id type=\"integer\">1</id></resource>");
+
+		when(mockHttpMethodExecutor.get(URL + "/1.xml")).thenReturn(
+				"<resource><id type=\"integer\">1</id></resource>");
 
 		Resource resource = new ResourceImpl();
 		resource.setId(1);
@@ -74,12 +69,12 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldSaveResource() {
-		
+	public void testShouldSaveResource() {
+
 		HttpMethodExecutor mockedHttpMethodExecutor = mock(HttpMethodExecutor.class);
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
-		RestClientCore restClient = new RestClientCore(URL,
-				mockFormatHandler, mockedHttpMethodExecutor);
+		RestClientCore restClient = new RestClientCore(URL, mockFormatHandler,
+				mockedHttpMethodExecutor);
 		try {
 
 			Resource resource = new ResourceImpl();
@@ -87,8 +82,9 @@ public class RestClientCoreTest {
 					marshall(resource));
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.save(resource);
-			
-			verify(mockedHttpMethodExecutor).post(marshall(resource), URL + ".xml");
+
+			verify(mockedHttpMethodExecutor).post(marshall(resource),
+					URL + ".xml", null);
 
 		} catch (Exception e) {
 			fail("not expected");
@@ -97,12 +93,12 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldUpdateResource() {
+	public void testShouldUpdateResource() {
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
 		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);
-		RestClientCore restClient = new RestClientCore(URL,
-				mockFormatHandler, mockHttpMethodExecutor);
+		RestClientCore restClient = new RestClientCore(URL, mockFormatHandler,
+				mockHttpMethodExecutor);
 		try {
 
 			Resource resource = new ResourceImpl();
@@ -112,7 +108,8 @@ public class RestClientCoreTest {
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.update(resource);
 
-			verify(mockHttpMethodExecutor).update(marshall(resource), URL + "/1.xml");
+			verify(mockHttpMethodExecutor).update(marshall(resource),
+					URL + "/1.xml", null);
 		} catch (Exception e) {
 			fail("not expected" + e.getMessage());
 		}
@@ -120,21 +117,20 @@ public class RestClientCoreTest {
 	}
 
 	@Test
-	public void shouldDeleteResource() {
+	public void testShouldDeleteResource() {
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
 
 		when(mockFormatHandler.getExtension()).thenReturn("xml");
 		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);
-		RestClientCore restClient = new RestClientCore(URL,
-				mockFormatHandler, mockHttpMethodExecutor);
+		RestClientCore restClient = new RestClientCore(URL, mockFormatHandler,
+				mockHttpMethodExecutor);
 		try {
-
 
 			ResourceImpl resource = new ResourceImpl();
 			resource.setId(1);
 			restClient.delete(resource);
-			
+
 			verify(mockHttpMethodExecutor).delete(URL + "/1.xml");
 
 		} catch (Exception e) {

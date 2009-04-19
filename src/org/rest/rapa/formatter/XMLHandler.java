@@ -11,7 +11,7 @@ import org.rest.rapa.resource.Resource;
 public class XMLHandler implements FormatHandler {
 
 	public Resource decode(String content, Class clazz) {
-		return (Resource)JAXB.unmarshal(new StringReader(content), clazz);
+		return (Resource) JAXB.unmarshal(new StringReader(content), clazz);
 	}
 
 	public String encode(Resource resource) {
@@ -22,6 +22,11 @@ public class XMLHandler implements FormatHandler {
 
 	public String getExtension() {
 		return "xml";
+	}
+
+	@Override
+	public String getContentType() {
+		return "text/xml";
 	}
 
 }

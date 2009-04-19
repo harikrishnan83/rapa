@@ -7,8 +7,9 @@ import org.rest.rapa.resource.Resource;
 
 public class JSonHandler implements FormatHandler {
 
-	public Resource decode(String content, Class resourceType) throws JSONException {
-		if(content == null || content.trim().length() == 0) {
+	public Resource decode(String content, Class resourceType)
+			throws JSONException {
+		if (content == null || content.trim().length() == 0) {
 			return null;
 		}
 		JSONObject jsonContent = new JSONObject(content);
@@ -17,7 +18,7 @@ public class JSonHandler implements FormatHandler {
 	}
 
 	public String encode(Resource resource) throws JSONException {
-		if(resource == null) {
+		if (resource == null) {
 			return null;
 		}
 		String encodedXml = new XMLHandler().encode(resource);
@@ -27,5 +28,10 @@ public class JSonHandler implements FormatHandler {
 
 	public String getExtension() {
 		return "json";
+	}
+
+	@Override
+	public String getContentType() {
+		return "text/json";
 	}
 }
