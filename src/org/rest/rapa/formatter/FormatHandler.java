@@ -4,9 +4,9 @@ import org.rest.rapa.resource.Resource;
 
 public interface FormatHandler {
 
-	String encode(Resource resource) throws Exception;
+	String serialize(Resource resource) throws Exception;
 
-	Resource decode(String content, Class resourceType) throws Exception;
+	Resource deserialize(String content, Class resourceType) throws Exception;
 
 	String getExtension();
 

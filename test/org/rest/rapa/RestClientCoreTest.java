@@ -47,7 +47,7 @@ public class RestClientCoreTest extends TestCase {
 
 		try {
 			when(
-					mockFormatHandler.decode(
+					mockFormatHandler.deserialize(
 							"<resource><id type=\"integer\">1</id></resource>",
 							ResourceImpl.class)).thenReturn(resource);
 
@@ -78,7 +78,7 @@ public class RestClientCoreTest extends TestCase {
 		try {
 
 			Resource resource = new ResourceImpl();
-			when(mockFormatHandler.encode(resource)).thenReturn(
+			when(mockFormatHandler.serialize(resource)).thenReturn(
 					marshall(resource));
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.save(resource);
@@ -103,7 +103,7 @@ public class RestClientCoreTest extends TestCase {
 
 			Resource resource = new ResourceImpl();
 			resource.setId(1);
-			when(mockFormatHandler.encode(resource)).thenReturn(
+			when(mockFormatHandler.serialize(resource)).thenReturn(
 					marshall(resource));
 			when(mockFormatHandler.getExtension()).thenReturn("xml");
 			restClient.update(resource);

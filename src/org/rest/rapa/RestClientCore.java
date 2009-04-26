@@ -30,7 +30,7 @@ public class RestClientCore {
 	}
 
 	public Resource getById(int id, Class resource) throws Exception {
-		return this.formatHandler.decode(httpMethodExecutor
+		return this.formatHandler.deserialize(httpMethodExecutor
 				.get(getResourceSpecificURL(id)), resource);
 	}
 
@@ -48,7 +48,7 @@ public class RestClientCore {
 	}
 
 	private String encode(Resource resource) throws Exception {
-		return this.formatHandler.encode(resource);
+		return this.formatHandler.serialize(resource);
 	}
 
 	public void delete(Resource resource) throws HttpException, IOException {

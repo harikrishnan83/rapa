@@ -1,0 +1,94 @@
+<!--
+ Copyright (c) 2006-2007 Julias R. Shaw
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to
+ deal in the Software without restriction, including without limitation the
+ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ sell copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ IN THE SOFTWARE.
+-->
+<project name="Cobertura Imports">
+    <path id="cobertura.classpath">
+        <fileset dir="panopticode/supplements/cobertura/lib">
+            <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <taskdef classpathref="cobertura.classpath" resource="tasks.properties" />
+
+    <macrodef name="panopticode-setup-coverage">
+        <attribute name="classDir" />
+        <attribute name="outputDir" />
+
+        <sequential>
+            <echo message="Panopticode - Using Cobertura for code coverage metrics" />
+            
+            <cobertura-instrument todir="@{classDir}">
+              <fileset dir="@{classDir}">
+                <include name="**/*.class" />
+              </fileset>
+            </cobertura-instrument>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="panopticode-junit">
+        <attribute name="outputDir" />
+        <attribute name="panopticodeDir" default="panopticode" />
+        <attribute name="unitTestClasspathId" />
+
+        <element name="thetests" implicit="yes" />
+
+        <sequential>
+            <echo message="If you get an error stating 'Could not create task or type of type: junit' then you need to copy the junit.jar file to your ANT_HOME/lib directory."/>
+
+            <junit fork="yes" forkmode="once" haltonfailure="yes">
+                <classpath>
+                    <path refid="@{unitTestClasspathId}" />
+                    <fileset dir="@{panopticodeDir}" includes="supplements/cobertura/lib/*.jar" />
+                </classpath>
+
+                <formatter type="plain" usefile="false" />
+                <formatter type="xml" />
+
+                <thetests />
+            </junit>
+
+        </sequential>
+    </macrodef>
+
+    <macrodef name="panopticode-report-coverage">
+        <attribute name="outputDir" />
+        <attribute name="srcDir" />
+
+        <sequential>
+            <delete file="@{outputDir}/rawmetrics/xml/cobertura.xml" />
+            <delete dir="@{outputDir}/rawmetrics/xml/cobertura" />
+            <delete dir="@{outputDir}/rawmetrics/html/cobertura" />
+
+            <cobertura-report srcdir="@{srcDir}"
+                              destdir="@{outputDir}/rawmetrics/html/cobertura" />
+
+            <cobertura-report srcdir="@{srcDir}"
+                              destdir="@{outputDir}/rawmetrics/xml/cobertura"
+                              format="xml" />
+
+            <move file="@{outputDir}/rawmetrics/xml/cobertura/coverage.xml"
+                  toFile="@{outputDir}/rawmetrics/xml/cobertura.xml" />
+
+            <delete dir="@{outputDir}/rawmetrics/xml/cobertura" />
+            <delete file="cobertura.ser" />
+        </sequential>
+    </macrodef>
+</project>

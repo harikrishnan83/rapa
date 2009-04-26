@@ -10,11 +10,11 @@ import org.rest.rapa.resource.Resource;
 
 public class XMLHandler implements FormatHandler {
 
-	public Resource decode(String content, Class clazz) {
+	public Resource deserialize(String content, Class clazz) {
 		return (Resource) JAXB.unmarshal(new StringReader(content), clazz);
 	}
 
-	public String encode(Resource resource) {
+	public String serialize(Resource resource) {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
 		return outputStream.toString();

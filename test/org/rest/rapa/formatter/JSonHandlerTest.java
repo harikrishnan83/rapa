@@ -18,8 +18,8 @@ public class JSonHandlerTest extends TestCase {
 			Resource resourceImpl = new ResourceImpl();
 			resourceImpl.setId(1);
 			JSonHandler handler = new JSonHandler();
-			String jsonContent = handler.encode(resourceImpl);
-			Resource decodedResource = handler.decode(jsonContent,
+			String jsonContent = handler.serialize(resourceImpl);
+			Resource decodedResource = handler.deserialize(jsonContent,
 					ResourceImpl.class);
 			assertTrue(decodedResource instanceof ResourceImpl);
 			assertEquals(1, ((ResourceImpl) decodedResource).getId());
@@ -35,8 +35,8 @@ public class JSonHandlerTest extends TestCase {
 			Resource resourceImpl = new ResourceImpl();
 			resourceImpl.setId(1);
 			JSonHandler handler = new JSonHandler();
-			String jsonContent = handler.encode(resourceImpl);
-			Resource decodedResource = handler.decode(jsonContent,
+			String jsonContent = handler.serialize(resourceImpl);
+			Resource decodedResource = handler.deserialize(jsonContent,
 					ResourceImpl.class);
 			assertNotNull(decodedResource);
 			assertEquals(resourceImpl.getId(), decodedResource.getId());
