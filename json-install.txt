@@ -1,1 +1,0 @@
-mvn -e install:install-file -DgroupId=org.json -DartifactId=json -Dversion=1-SNAPSHOT -Dpackaging=jar -Dfile=json.jar
