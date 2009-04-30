@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
+	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="src/test"/>
+	<classpathentry including="**/*.java" kind="src" path="src/main"/>
+	<classpathentry kind="con" path="org.devzuz.q.maven.jdt.core.mavenClasspathContainer"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/mockito-all-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/ant-junit.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-httpclient-3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-api-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="lib/json.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
