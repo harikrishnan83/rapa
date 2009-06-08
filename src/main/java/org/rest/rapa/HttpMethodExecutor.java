@@ -1,7 +1,5 @@
 package org.rest.rapa;
 
-import java.io.IOException;
-
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URI;
@@ -9,6 +7,8 @@ import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
+
+import java.io.IOException;
 
 public class HttpMethodExecutor {
 

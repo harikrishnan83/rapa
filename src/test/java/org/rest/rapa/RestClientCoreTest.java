@@ -22,8 +22,7 @@ public class RestClientCoreTest extends TestCase {
 	private String marshall(Resource resource) {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
-		String xml = outputStream.toString();
-		return xml;
+        return outputStream.toString();
 	}
 
 	/*

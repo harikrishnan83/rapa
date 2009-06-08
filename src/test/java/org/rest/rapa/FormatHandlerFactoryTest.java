@@ -13,21 +13,21 @@ public class FormatHandlerFactoryTest extends TestCase {
 	@Test
 	public void testShouldReturnXMLHandlerWhenPassedXMLAsFormat() {
 		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
-		Assert.assertEquals(new XMLHandler().getClass(), formatHandlerFactory
+		Assert.assertEquals(XMLHandler.class, formatHandlerFactory
 				.create("xml").getClass());
 	}
 	
 	@Test
 	public void testShouldReturnJSONHandlerWhenPassedJSONAsFormat() {
 		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
-		Assert.assertEquals(new JSonHandler().getClass(), formatHandlerFactory
+		Assert.assertEquals(JSonHandler.class, formatHandlerFactory
 				.create("json").getClass());
 	}
 	
 	@Test
 	public void testShouldIgnoreCaseWhenComparingStrings() {
 		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
-		Assert.assertEquals(new XMLHandler().getClass(), formatHandlerFactory
+		Assert.assertEquals(XMLHandler.class, formatHandlerFactory
 				.create("XML").getClass());
 	}
 

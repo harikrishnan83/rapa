@@ -1,17 +1,14 @@
 package org.rest.rapa.formatter;
 
-import static junit.framework.Assert.*;
-
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-
-import javax.xml.bind.JAXB;
-
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.fail;
 import org.junit.Test;
-import org.rest.rapa.formatter.FormatHandler;
-import org.rest.rapa.formatter.XMLHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
+
+import javax.xml.bind.JAXB;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 
 
 public class XMLHandlerTest {
@@ -53,13 +50,11 @@ public class XMLHandlerTest {
 	private String marshall(Resource resource) {
 		OutputStream outputStream = new ByteArrayOutputStream();
 		JAXB.marshal(resource, outputStream);
-		String xml = outputStream.toString();
-		return xml;
+        return outputStream.toString();
 	}
 
 	private FormatHandler getXMLHandler() {
-		FormatHandler formatHandler = new XMLHandler();
-		return formatHandler;
+        return new XMLHandler();
 	}
 
 }

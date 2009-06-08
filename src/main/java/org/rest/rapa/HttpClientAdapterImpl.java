@@ -1,12 +1,12 @@
 package org.rest.rapa;
 
-import java.io.IOException;
-
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
+
+import java.io.IOException;
 
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 

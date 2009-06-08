@@ -1,9 +1,6 @@
 package org.rest.rapa;
 
-import java.io.IOException;
-
 import junit.framework.TestCase;
-
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.DeleteMethod;
@@ -12,7 +9,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Test;
 import static org.mockito.Mockito.*;
-import static org.junit.Assert.*;
+
+import java.io.IOException;
 
 public class HttpMethodExcecutorTest extends TestCase {
 	private static String URL = "http://someUrl.com";

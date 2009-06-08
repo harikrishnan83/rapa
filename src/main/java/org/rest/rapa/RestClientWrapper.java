@@ -1,14 +1,14 @@
 package org.rest.rapa;
 
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.rest.rapa.resource.Resource;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 public class RestClientWrapper {
 
@@ -89,13 +89,9 @@ public class RestClientWrapper {
 	}
 
 	public Resource getById(int id, Class type) throws RestClientException {
-		Resource resource = null;
+		Resource resource;
 		try {
 			resource = restClientCore.getById(id, type);
-		} catch (HttpException e) {
-			throw new RestClientException("Error while getting resource", e);
-		} catch (IOException e) {
-			throw new RestClientException("Error while getting resource", e);
 		} catch (Exception e) {
 			throw new RestClientException("Error while getting resource", e);
 		}

@@ -7,10 +7,10 @@
 
 package org.rest.rapa;
 
-import java.io.IOException;
-
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
+
+import java.io.IOException;
 
 public interface HttpClientAdapter {
 

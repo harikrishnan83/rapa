@@ -1,12 +1,10 @@
 package org.rest.rapa;
 
-import java.io.IOException;
-
-import javax.sound.sampled.spi.FormatConversionProvider;
-
 import org.apache.commons.httpclient.HttpException;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
+
+import java.io.IOException;
 
 public class RestClientCore {
 

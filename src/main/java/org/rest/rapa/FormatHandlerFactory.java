@@ -7,7 +7,7 @@ import org.rest.rapa.formatter.XMLHandler;
 public class FormatHandlerFactory {
 
 	public FormatHandler create(String format) {
-		FormatHandler handler = null;
+		FormatHandler handler;
 		if (format.equalsIgnoreCase("xml")) {
 			handler = new XMLHandler();
 		} else if (format.equalsIgnoreCase("json")) {

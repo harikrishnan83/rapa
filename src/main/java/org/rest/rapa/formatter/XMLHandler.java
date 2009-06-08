@@ -1,12 +1,11 @@
 package org.rest.rapa.formatter;
 
+import org.rest.rapa.resource.Resource;
+
+import javax.xml.bind.JAXB;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
-
-import javax.xml.bind.JAXB;
-
-import org.rest.rapa.resource.Resource;
 
 public class XMLHandler implements FormatHandler {
 

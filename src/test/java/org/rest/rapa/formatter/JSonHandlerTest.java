@@ -1,11 +1,6 @@
 package org.rest.rapa.formatter;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import junit.framework.TestCase;
-
 import org.junit.Test;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
@@ -22,7 +17,7 @@ public class JSonHandlerTest extends TestCase {
 			Resource decodedResource = handler.deserialize(jsonContent,
 					ResourceImpl.class);
 			assertTrue(decodedResource instanceof ResourceImpl);
-			assertEquals(1, ((ResourceImpl) decodedResource).getId());
+			assertEquals(1, decodedResource.getId());
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail("unexpected exception!");
