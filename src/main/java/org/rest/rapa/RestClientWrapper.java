@@ -45,16 +45,6 @@ public class RestClientWrapper {
 	public void save(Resource resource) throws RestClientException {
 		try {
 			restClientCore.save(resource);
-		} catch (HttpException e) {
-			throw new RestClientException("Error while saving resource", e);
-		} catch (IOException e) {
-			throw new RestClientException("Error while saving resource", e);
-		} catch (IllegalArgumentException e) {
-			throw new RestClientException("Error while saving resource", e);
-		} catch (IllegalAccessException e) {
-			throw new RestClientException("Error while saving resource", e);
-		} catch (InvocationTargetException e) {
-			throw new RestClientException("Error while saving resource", e);
 		} catch (Exception e) {
 			throw new RestClientException("Error while saving resource", e);
 		}
@@ -67,12 +57,6 @@ public class RestClientWrapper {
 			throw new RestClientException("Error while updating resource", e);
 		} catch (IOException e) {
 			throw new RestClientException("Error while updating resource", e);
-		} catch (IllegalArgumentException e) {
-			throw new RestClientException("Error while saving resource", e);
-		} catch (IllegalAccessException e) {
-			throw new RestClientException("Error while saving resource", e);
-		} catch (InvocationTargetException e) {
-			throw new RestClientException("Error while saving resource", e);
 		} catch (Exception e) {
 			throw new RestClientException("Error while saving resource", e);
 		}

@@ -32,7 +32,7 @@ public class HttpMethodExecutor {
 		String ret = "";
 		getMethod.setURI(new URI(url, false));
 		try {
-			int statusCode = getHttpClient().executeMethod(getMethod);
+            int statusCode = httpClientAdapter.executeMethod(getMethod);
 
 			if (statusCode != HttpStatus.SC_OK) {
 				throw new RuntimeException("Method failed: "
@@ -47,18 +47,14 @@ public class HttpMethodExecutor {
 		return ret;
 	}
 
-	private HttpClientAdapter getHttpClient() {
-		return httpClientAdapter;
-	}
-
-	void post(String content, String url, String contentType)
+    void post(String content, String url, String contentType)
 			throws HttpException, IOException {
 		postMethod.setURI(new URI(url, false));
 		postMethod.setRequestHeader("Content-type", contentType);
 		postMethod.setRequestBody(content);
 
 		try {
-			int statusCode = getHttpClient().executeMethod(postMethod);
+            int statusCode = httpClientAdapter.executeMethod(postMethod);
 
 			if (statusCode != HttpStatus.SC_CREATED) {
 				throw new RuntimeException("Method failed: "
@@ -77,7 +73,7 @@ public class HttpMethodExecutor {
 		putMethod.setRequestBody(xml);
 
 		try {
-			int statusCode = getHttpClient().executeMethod(putMethod);
+            int statusCode = httpClientAdapter.executeMethod(putMethod);
 
 			if (statusCode != HttpStatus.SC_OK) {
 				throw new RuntimeException("Method failed: "
@@ -94,7 +90,7 @@ public class HttpMethodExecutor {
 		deleteMethod.setURI(new URI(url, false));
 
 		try {
-			int statusCode = getHttpClient().executeMethod(deleteMethod);
+            int statusCode = httpClientAdapter.executeMethod(deleteMethod);
 
 			if (statusCode != HttpStatus.SC_OK) {
 				throw new RuntimeException("Method failed: "
