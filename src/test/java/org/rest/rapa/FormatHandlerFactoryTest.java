@@ -1,12 +1,13 @@
 package org.rest.rapa;
 
-import static org.junit.Assert.*;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.junit.Test;
 import org.rest.rapa.formatter.JSonHandler;
 import org.rest.rapa.formatter.XMLHandler;
+import org.rest.rapa.formatter.FormatHandlerFactory;
+import org.rest.rapa.formatter.Formats;
 
 public class FormatHandlerFactoryTest extends TestCase {
 

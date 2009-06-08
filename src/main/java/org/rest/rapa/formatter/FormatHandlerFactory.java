@@ -1,4 +1,4 @@
-package org.rest.rapa;
+package org.rest.rapa.formatter;
 
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.formatter.JSonHandler;

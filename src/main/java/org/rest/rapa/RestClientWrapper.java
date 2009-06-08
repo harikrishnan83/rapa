@@ -6,9 +6,9 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.rest.rapa.resource.Resource;
+import org.rest.rapa.formatter.FormatHandlerFactory;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 public class RestClientWrapper {
 

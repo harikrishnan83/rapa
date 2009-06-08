@@ -1,4 +1,4 @@
-package org.rest.rapa;
+package org.rest.rapa.formatter;
 
 import java.util.Arrays;
 import java.util.List;
