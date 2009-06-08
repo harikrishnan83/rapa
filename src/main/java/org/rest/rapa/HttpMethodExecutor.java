@@ -3,6 +3,7 @@ package org.rest.rapa;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URI;
+import org.apache.commons.httpclient.HttpMethodBase;
 import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
@@ -12,94 +13,56 @@ import java.io.IOException;
 
 public class HttpMethodExecutor {
 
-	private HttpClientAdapter httpClientAdapter;
-	private DeleteMethod deleteMethod;
-	private GetMethod getMethod;
-	private PostMethod postMethod;
-	private PutMethod putMethod;
+    private HttpClientAdapter httpClientAdapter;
+    private DeleteMethod deleteMethod;
+    private GetMethod getMethod;
+    private PostMethod postMethod;
+    private PutMethod putMethod;
 
-	public HttpMethodExecutor(HttpClientAdapter httpClientAdapter,
-			GetMethod getMethod, PostMethod postMethod,
-			DeleteMethod deleteMethod, PutMethod putMethod) {
-		this.httpClientAdapter = httpClientAdapter;
-		this.deleteMethod = deleteMethod;
-		this.getMethod = getMethod;
-		this.postMethod = postMethod;
-		this.putMethod = putMethod;
-	}
+    public HttpMethodExecutor(HttpClientAdapter httpClientAdapter,
+                              GetMethod getMethod, PostMethod postMethod,
+                              DeleteMethod deleteMethod, PutMethod putMethod) {
+        this.httpClientAdapter = httpClientAdapter;
+        this.deleteMethod = deleteMethod;
+        this.getMethod = getMethod;
+        this.postMethod = postMethod;
+        this.putMethod = putMethod;
+    }
 
-	public String get(String url) throws HttpException, IOException {
-		String ret = "";
-		getMethod.setURI(new URI(url, false));
-		try {
-            int statusCode = httpClientAdapter.executeMethod(getMethod);
-
-			if (statusCode != HttpStatus.SC_OK) {
-				throw new RuntimeException("Method failed: "
-						+ getMethod.getStatusLine());
-			}
-
-			ret = new String(getMethod.getResponseBody());
-
-		} finally {
-			getMethod.releaseConnection();
-		}
-		return ret;
-	}
+    public String get(String url) throws HttpException, IOException {
+        return execute(url, getMethod, HttpStatus.SC_OK);
+    }
 
     void post(String content, String url, String contentType)
-			throws HttpException, IOException {
-		postMethod.setURI(new URI(url, false));
-		postMethod.setRequestHeader("Content-type", contentType);
-		postMethod.setRequestBody(content);
+            throws HttpException, IOException {
+        postMethod.setRequestHeader("Content-type", contentType);
+        postMethod.setRequestBody(content);
+        execute(url, postMethod, HttpStatus.SC_CREATED);
+    }
 
-		try {
-            int statusCode = httpClientAdapter.executeMethod(postMethod);
+    void update(String xml, String url, String contentType)
+            throws HttpException, IOException {
+        putMethod.setRequestHeader("Content-type", contentType);
+        putMethod.setRequestBody(xml);
+        execute(url, putMethod, HttpStatus.SC_OK);
+    }
 
-			if (statusCode != HttpStatus.SC_CREATED) {
-				throw new RuntimeException("Method failed: "
-						+ postMethod.getStatusLine());
-			}
+    void delete(String url) throws HttpException, IOException {
+        execute(url, deleteMethod, HttpStatus.SC_OK);
+    }
 
-		} finally {
-			postMethod.releaseConnection();
-		}
-	}
-
-	void update(String xml, String url, String contentType)
-			throws HttpException, IOException {
-		putMethod.setURI(new URI(url, false));
-		putMethod.setRequestHeader("Content-type", contentType);
-		putMethod.setRequestBody(xml);
-
-		try {
-            int statusCode = httpClientAdapter.executeMethod(putMethod);
-
-			if (statusCode != HttpStatus.SC_OK) {
-				throw new RuntimeException("Method failed: "
-						+ putMethod.getStatusLine());
-			}
-
-		} finally {
-			putMethod.releaseConnection();
-		}
-
-	}
-
-	void delete(String url) throws HttpException, IOException {
-		deleteMethod.setURI(new URI(url, false));
-
-		try {
-            int statusCode = httpClientAdapter.executeMethod(deleteMethod);
-
-			if (statusCode != HttpStatus.SC_OK) {
-				throw new RuntimeException("Method failed: "
-						+ deleteMethod.getStatusLine());
-			}
-
-		} finally {
-			deleteMethod.releaseConnection();
-		}
-	}
-
+    private String execute(String url, HttpMethodBase method, int status_to_check) throws HttpException, IOException {
+        method.setURI(new URI(url, false));
+        try {
+            int statusCode = httpClientAdapter.executeMethod(method);
+            if (statusCode != status_to_check) {
+                throw new RuntimeException("Method failed: "
+                        + method.getStatusLine());
+            }
+            byte[] responseBody = method.getResponseBody();
+            return  responseBody !=null ? new String(responseBody) : "";
+        } finally {
+            method.releaseConnection();
+        }
+    }
 }
