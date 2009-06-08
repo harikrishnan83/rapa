@@ -8,14 +8,15 @@ public class FormatHandlerFactory {
 
 	public FormatHandler create(String format) {
 		FormatHandler handler;
-		if (format.equalsIgnoreCase("xml")) {
+        if (Formats.XML.name().equalsIgnoreCase(format)) {
 			handler = new XMLHandler();
-		} else if (format.equalsIgnoreCase("json")) {
+		} else if (Formats.JSON.name().equalsIgnoreCase(format)) {
 			handler = new JSonHandler();
 		} else {
-			throw new RuntimeException("Unsupported Format " + format);
+            throw new RuntimeException("Unsupported Format " + format + ". Supported formats are : " + Formats.getSupportedFormats());
 		}
 		return handler;
 	}
+
 
 }

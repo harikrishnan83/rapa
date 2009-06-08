@@ -38,7 +38,7 @@ public class FormatHandlerFactoryTest extends TestCase {
 			formatHandlerFactory.create("unknown");
 			fail("UnsuppportFormatException was not thrown");
 		} catch (Exception e) {
-			assertEquals("Unsupported Format unknown", e.getMessage());
+			assertTrue(e.getMessage().contains("Unsupported Format unknown. Supported formats are : " + Formats.getSupportedFormats()));
 		}
 	}
 
