@@ -53,8 +53,6 @@ public class RestClientWrapper {
 	public void update(Resource resource) throws RestClientException {
 		try {
 			restClientCore.update(resource);
-		} catch (HttpException e) {
-			throw new RestClientException("Error while updating resource", e);
 		} catch (IOException e) {
 			throw new RestClientException("Error while updating resource", e);
 		} catch (Exception e) {
@@ -65,8 +63,6 @@ public class RestClientWrapper {
 	public void delete(Resource resource) throws RestClientException {
 		try {
 			restClientCore.delete(resource);
-		} catch (HttpException e) {
-			throw new RestClientException("Error while deleting resource", e);
 		} catch (IOException e) {
 			throw new RestClientException("Error while deleting resource", e);
 		}
