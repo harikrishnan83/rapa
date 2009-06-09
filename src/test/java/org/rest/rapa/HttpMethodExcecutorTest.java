@@ -13,11 +13,11 @@ import static org.mockito.Mockito.*;
 import java.io.IOException;
 
 public class HttpMethodExcecutorTest extends TestCase {
-	private static String URL = "http://someUrl.com";
+	private static final String URL = "http://someUrl.com";
 
 	@Test
 	public void testShouldReturnAStringWhenHTTPStatusIsOK()
-			throws HttpException, IOException {
+			throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		GetMethod mockGetMethod = mock(GetMethod.class);
 		String expectedResponse = "Response";
@@ -38,7 +38,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 
 	@Test
 	public void testShouldThrowAnExceptionWhenHTTPStatusIsNotOK()
-			throws HttpException, IOException {
+			throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		GetMethod mockGetMethod = mock(GetMethod.class);
 		when(mockHttpClientAdapter.executeMethod(mockGetMethod)).thenReturn(
@@ -57,7 +57,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 	}
 
 	@Test
-	public void testShouldPostDataToURL() throws HttpException, IOException {
+	public void testShouldPostDataToURL() throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		PostMethod mockPostMethod = mock(PostMethod.class);
 
@@ -75,7 +75,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 
 	@Test
 	public void testShouldThrowAnExceptionIfPostDataHTTPStatusIsNotCreated()
-			throws HttpException, IOException {
+			throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		PostMethod mockPostMethod = mock(PostMethod.class);
 
@@ -97,7 +97,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 	}
 
 	@Test
-	public void testShouldUpdateDataToURL() throws HttpException, IOException {
+	public void testShouldUpdateDataToURL() throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		PutMethod mockPutMethod = mock(PutMethod.class);
 
@@ -115,7 +115,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 
 	@Test
 	public void testShouldThrowAnExceptionIfUpdateDataHTTPStatusIsNotAccepted()
-			throws HttpException, IOException {
+			throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		PutMethod mockPutMethod = mock(PutMethod.class);
 
@@ -137,7 +137,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 	}
 
 	@Test
-	public void testShouldDeleteResourceAtURL() throws HttpException,
+	public void testShouldDeleteResourceAtURL() throws
 			IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		DeleteMethod mockDeleteMethod = mock(DeleteMethod.class);
@@ -154,7 +154,7 @@ public class HttpMethodExcecutorTest extends TestCase {
 
 	@Test
 	public void testShouldThrowAnExceptionIfDeleteHTTPStatusIsNotOK()
-			throws HttpException, IOException {
+			throws  IOException {
 		HttpClientAdapter mockHttpClientAdapter = mock(HttpClientAdapter.class);
 		DeleteMethod mockDeleteMethod = mock(DeleteMethod.class);
 

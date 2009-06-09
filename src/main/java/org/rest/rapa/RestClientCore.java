@@ -8,9 +8,9 @@ import java.io.IOException;
 
 public class RestClientCore {
 
-	private String url;
-	private FormatHandler formatHandler;
-	private HttpMethodExecutor httpMethodExecutor;
+	private final String url;
+	private final FormatHandler formatHandler;
+	private final HttpMethodExecutor httpMethodExecutor;
 
 	public RestClientCore(String url, FormatHandler formatHandler,
 			HttpMethodExecutor httpMethodExecutor) {
@@ -49,7 +49,7 @@ public class RestClientCore {
 		return this.formatHandler.serialize(resource);
 	}
 
-	public void delete(Resource resource) throws HttpException, IOException {
+	public void delete(Resource resource) throws  IOException {
 		httpMethodExecutor.delete(getResourceSpecificURL(resource.getId()));
 	}
 

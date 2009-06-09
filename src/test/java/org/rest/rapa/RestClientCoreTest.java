@@ -33,7 +33,7 @@ public class RestClientCoreTest extends TestCase {
 	 */
 
 	@Test
-	public void testShouldGetResourceById() throws HttpException, IOException {
+	public void testShouldGetResourceById() throws IOException {
 
 		FormatHandler mockFormatHandler = mock(FormatHandler.class);
 		HttpMethodExecutor mockHttpMethodExecutor = mock(HttpMethodExecutor.class);

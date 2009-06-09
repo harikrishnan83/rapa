@@ -4,20 +4,17 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.methods.DeleteMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.PutMethod;
+import org.apache.commons.httpclient.methods.*;
 
 import java.io.IOException;
 
 public class HttpMethodExecutor {
 
-    private HttpClientAdapter httpClientAdapter;
-    private DeleteMethod deleteMethod;
-    private GetMethod getMethod;
-    private PostMethod postMethod;
-    private PutMethod putMethod;
+    private final HttpClientAdapter httpClientAdapter;
+    private final DeleteMethod deleteMethod;
+    private final GetMethod getMethod;
+    private final PostMethod postMethod;
+    private final PutMethod putMethod;
 
     public HttpMethodExecutor(HttpClientAdapter httpClientAdapter,
                               GetMethod getMethod, PostMethod postMethod,
@@ -29,33 +26,33 @@ public class HttpMethodExecutor {
         this.putMethod = putMethod;
     }
 
-    public String get(String url) throws HttpException, IOException {
+    public String get(String url) throws  IOException {
         return execute(url, getMethod, HttpStatus.SC_OK);
     }
 
     void post(String content, String url, String contentType)
-            throws HttpException, IOException {
+            throws  IOException {
         postMethod.setRequestHeader("Content-type", contentType);
-        postMethod.setRequestBody(content);
+        postMethod.setRequestEntity(new StringRequestEntity(content, contentType, "UTF-8"));
         execute(url, postMethod, HttpStatus.SC_CREATED);
     }
 
     void update(String xml, String url, String contentType)
-            throws HttpException, IOException {
+            throws  IOException {
         putMethod.setRequestHeader("Content-type", contentType);
-        putMethod.setRequestBody(xml);
+        putMethod.setRequestEntity(new StringRequestEntity(xml, contentType, "UTF-8"));
         execute(url, putMethod, HttpStatus.SC_OK);
     }
 
-    void delete(String url) throws HttpException, IOException {
+    void delete(String url) throws  IOException {
         execute(url, deleteMethod, HttpStatus.SC_OK);
     }
 
-    private String execute(String url, HttpMethodBase method, int status_to_check) throws HttpException, IOException {
+    private String execute(String url, HttpMethodBase method, int statusToCheck) throws  IOException {
         method.setURI(new URI(url, false));
         try {
             int statusCode = httpClientAdapter.executeMethod(method);
-            if (statusCode != status_to_check) {
+            if (statusCode != statusToCheck) {
                 throw new RuntimeException("Method failed: "
                         + method.getStatusLine());
             }

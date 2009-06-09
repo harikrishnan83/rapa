@@ -9,7 +9,7 @@ import java.util.List;
 public enum Formats {
     XML("xml"), JSON("json");
 
-    private String format;
+    private final String format;
 
     Formats(String format) {
         this.format = format;

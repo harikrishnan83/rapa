@@ -14,7 +14,7 @@ import java.io.IOException;
 
 public interface HttpClientAdapter {
 
-	public int executeMethod(HttpMethod method) throws HttpException,
+	public int executeMethod(HttpMethod method) throws
 			IOException;
 
 }

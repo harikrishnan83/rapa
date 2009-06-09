@@ -12,8 +12,8 @@ import java.io.IOException;
 
 public class RestClientWrapper {
 
-	private RestClientCore restClientCore;
-	private FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
+	private final RestClientCore restClientCore;
+	private final FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
 
 	public RestClientWrapper(String url, String username, String password,
 			String host, int port, String format) {

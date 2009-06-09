@@ -10,7 +10,7 @@ import java.io.IOException;
 
 public class HttpClientAdapterImpl implements HttpClientAdapter {
 
-	private HttpClient httpClient;
+	private final HttpClient httpClient;
 
 	public HttpClientAdapterImpl(String username, String password, String host,
 			int port, String realm, String scheme) {
@@ -37,7 +37,7 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
 				new UsernamePasswordCredentials(username, password));
 	}
 
-	public int executeMethod(HttpMethod method) throws HttpException,
+	public int executeMethod(HttpMethod method) throws
 			IOException {
 		return httpClient.executeMethod(method);
 	}
