@@ -30,25 +30,23 @@ public class HttpMethodExecutor {
         return execute(url, getMethod, HttpStatus.SC_OK);
     }
 
-    void post(String content, String url, String contentType)
-            throws  IOException {
+    void post(String content, String url, String contentType) throws IOException {
         postMethod.setRequestHeader("Content-type", contentType);
         postMethod.setRequestEntity(new StringRequestEntity(content, contentType, "UTF-8"));
         execute(url, postMethod, HttpStatus.SC_CREATED);
     }
 
-    void update(String xml, String url, String contentType)
-            throws  IOException {
+    void update(String xml, String url, String contentType) throws IOException {
         putMethod.setRequestHeader("Content-type", contentType);
         putMethod.setRequestEntity(new StringRequestEntity(xml, contentType, "UTF-8"));
         execute(url, putMethod, HttpStatus.SC_OK);
     }
 
-    void delete(String url) throws  IOException {
+    void delete(String url) throws IOException {
         execute(url, deleteMethod, HttpStatus.SC_OK);
     }
 
-    private String execute(String url, HttpMethodBase method, int statusToCheck) throws  IOException {
+    private String execute(String url, HttpMethodBase method, int statusToCheck) throws IOException {
         method.setURI(new URI(url, false));
         try {
             int statusCode = httpClientAdapter.executeMethod(method);
