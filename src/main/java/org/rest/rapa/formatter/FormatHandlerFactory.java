@@ -1,9 +1,5 @@
 package org.rest.rapa.formatter;
 
-import org.rest.rapa.formatter.FormatHandler;
-import org.rest.rapa.formatter.JSonHandler;
-import org.rest.rapa.formatter.XMLHandler;
-
 public class FormatHandlerFactory {
 
 	public FormatHandler create(String format) {

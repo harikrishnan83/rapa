@@ -7,7 +7,6 @@
 
 package org.rest.rapa;
 
-import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpMethod;
 
 import java.io.IOException;

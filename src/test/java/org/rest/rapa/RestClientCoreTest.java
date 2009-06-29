@@ -1,19 +1,16 @@
 package org.rest.rapa;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import javax.xml.bind.JAXB;
-
 import junit.framework.TestCase;
-
-import org.apache.commons.httpclient.HttpException;
 import org.junit.Test;
-import org.rest.rapa.RestClientCore;
+import static org.mockito.Mockito.*;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
-import static org.mockito.Mockito.*;
+
+import javax.xml.bind.JAXB;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class RestClientCoreTest extends TestCase {
 

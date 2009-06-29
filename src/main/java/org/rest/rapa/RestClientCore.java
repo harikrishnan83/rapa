@@ -1,6 +1,5 @@
 package org.rest.rapa;
 
-import org.apache.commons.httpclient.HttpException;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 
@@ -20,15 +19,15 @@ public class RestClientCore {
 	}
 
 	private String getResourceSpecificURL(int id) {
-		return url + "/" + id + "." + this.formatHandler.getExtension();
+		return url + "/" + id + "." + formatHandler.getExtension();
 	}
 
 	private String getURL() {
-		return url + "." + this.formatHandler.getExtension();
+		return url + "." + formatHandler.getExtension();
 	}
 
 	public Resource getById(int id, Class resource) throws Exception {
-		return this.formatHandler.deserialize(httpMethodExecutor
+		return formatHandler.deserialize(httpMethodExecutor
 				.get(getResourceSpecificURL(id)), resource);
 	}
 
@@ -46,7 +45,7 @@ public class RestClientCore {
 	}
 
 	private String encode(Resource resource) throws Exception {
-		return this.formatHandler.serialize(resource);
+		return formatHandler.serialize(resource);
 	}
 
 	public void delete(Resource resource) throws  IOException {

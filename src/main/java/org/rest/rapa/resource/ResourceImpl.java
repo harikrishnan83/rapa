@@ -10,5 +10,4 @@ public class ResourceImpl implements Resource {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 }
