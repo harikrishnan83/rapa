@@ -3,53 +3,37 @@ package org.rest.rapa;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 
-import java.io.IOException;
-
 public class RestClientCore {
 
-	private final String url;
+	private final Url url;
 	private final FormatHandler formatHandler;
 	private final HttpMethodExecutor httpMethodExecutor;
 
-	public RestClientCore(String url, FormatHandler formatHandler,
+	public RestClientCore(Url url, FormatHandler formatHandler,
 			HttpMethodExecutor httpMethodExecutor) {
 		this.url = url;
 		this.formatHandler = formatHandler;
 		this.httpMethodExecutor = httpMethodExecutor;
 	}
 
-	private String getResourceSpecificURL(int id) {
-		return url + "/" + id + "." + formatHandler.getExtension();
-	}
-
-	private String getURL() {
-		return url + "." + formatHandler.getExtension();
-	}
-
 	public Resource getById(int id, Class resource) throws Exception {
 		return formatHandler.deserialize(httpMethodExecutor
-				.get(getResourceSpecificURL(id)), resource);
+				.get(url.getResourceSpecificURL(id)), resource);
 	}
 
 	public void save(Resource resource) throws Exception {
-		String encodedResource = encode(resource);
-		httpMethodExecutor.post(encodedResource, getURL(), formatHandler
+		httpMethodExecutor.post(formatHandler.serialize(resource), url.getURL(), formatHandler
 				.getContentType());
 	}
 
 	public void update(Resource resource) throws Exception {
-		String xml = encode(resource);
-		httpMethodExecutor.update(xml,
-				getResourceSpecificURL(resource.getId()), formatHandler
+		httpMethodExecutor.put(formatHandler.serialize(resource),
+				url.getResourceSpecificURL(resource.getId()), formatHandler
 						.getContentType());
 	}
 
-	private String encode(Resource resource) throws Exception {
-		return formatHandler.serialize(resource);
-	}
-
-	public void delete(Resource resource) throws  IOException {
-		httpMethodExecutor.delete(getResourceSpecificURL(resource.getId()));
+	public void delete(Resource resource) throws Exception {
+		httpMethodExecutor.delete(url.getResourceSpecificURL(resource.getId()));
 	}
 
 }

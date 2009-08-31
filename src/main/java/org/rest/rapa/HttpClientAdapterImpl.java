@@ -36,8 +36,7 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
 				new UsernamePasswordCredentials(username, password));
 	}
 
-	public int executeMethod(HttpMethod method) throws
-			IOException {
+	public int executeMethod(HttpMethod method) throws IOException {
 		return httpClient.executeMethod(method);
 	}
 

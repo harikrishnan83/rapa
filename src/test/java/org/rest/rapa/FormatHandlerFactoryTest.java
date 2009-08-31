@@ -2,44 +2,38 @@ package org.rest.rapa;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.rest.rapa.formatter.FormatHandlerFactory;
 import org.rest.rapa.formatter.Formats;
 import org.rest.rapa.formatter.JSonHandler;
 import org.rest.rapa.formatter.XMLHandler;
 
-public class FormatHandlerFactoryTest extends TestCase {
+public class FormatHandlerFactoryTest {
 
+	private FormatHandlerFactory formatHandlerFactory;
+
+	@Before
+	public void setup() {
+		formatHandlerFactory = new FormatHandlerFactory();
+	}
+	
 	@Test
 	public void testShouldReturnXMLHandlerWhenPassedXMLAsFormat() {
-		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
 		Assert.assertEquals(XMLHandler.class, formatHandlerFactory
-				.create("xml").getClass());
+				.create(Formats.XML).getClass());
 	}
 	
 	@Test
 	public void testShouldReturnJSONHandlerWhenPassedJSONAsFormat() {
-		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
 		Assert.assertEquals(JSonHandler.class, formatHandlerFactory
-				.create("json").getClass());
+				.create(Formats.JSON).getClass());
 	}
 	
 	@Test
 	public void testShouldIgnoreCaseWhenComparingStrings() {
-		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
 		Assert.assertEquals(XMLHandler.class, formatHandlerFactory
-				.create("XML").getClass());
+				.create(Formats.XML).getClass());
 	}
-
-	@Test
-	public void testShouldThrowUnsupportedFormatExceptionWhenPassedUnsupportedFormat() {
-		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
-		try {
-			formatHandlerFactory.create("unknown");
-			fail("UnsuppportFormatException was not thrown");
-		} catch (Exception e) {
-			assertTrue(e.getMessage().contains("Unsupported Format unknown. Supported formats are : " + Formats.getSupportedFormats()));
-		}
-	}
-
 }

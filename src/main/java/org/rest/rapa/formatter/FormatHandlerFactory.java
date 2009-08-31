@@ -2,11 +2,11 @@ package org.rest.rapa.formatter;
 
 public class FormatHandlerFactory {
 
-	public FormatHandler create(String format) {
+	public FormatHandler create(Formats format) {
 		FormatHandler handler;
-        if (Formats.XML.name().equalsIgnoreCase(format)) {
+        if (Formats.XML == format) {
 			handler = new XMLHandler();
-		} else if (Formats.JSON.name().equalsIgnoreCase(format)) {
+		} else if (Formats.JSON == format) {
 			handler = new JSonHandler();
 		} else {
             throw new RuntimeException("Unsupported Format " + format + ". Supported formats are : " + Formats.getSupportedFormats());

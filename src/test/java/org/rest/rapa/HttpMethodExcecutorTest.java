@@ -120,7 +120,7 @@ public class HttpMethodExcecutorTest extends TestCase {
             }
         };
 		String data = "<Data></Data>";
-		httpMethodExecutor.update(data, URL, "json");
+		httpMethodExecutor.put(data, URL, "json");
 		verify(mockHttpClientAdapter).executeMethod(mockPutMethod);
 		verify(mockPutMethod).setRequestHeader("Content-type", "json");
 		verify(mockPutMethod).releaseConnection();
@@ -142,7 +142,7 @@ public class HttpMethodExcecutorTest extends TestCase {
         };
 		String data = "<Data></Data>";
 		try {
-			httpMethodExecutor.update(data, URL, "json");
+			httpMethodExecutor.put(data, URL, "json");
 			fail("Exception was not thrown when HTTPStatus was not CREATED.");
 		} catch (Exception e) {
 
