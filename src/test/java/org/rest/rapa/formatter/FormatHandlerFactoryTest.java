@@ -1,8 +1,6 @@
-package org.rest.rapa;
+package org.rest.rapa.formatter;
 
 import junit.framework.Assert;
-import junit.framework.TestCase;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.rest.rapa.formatter.FormatHandlerFactory;
