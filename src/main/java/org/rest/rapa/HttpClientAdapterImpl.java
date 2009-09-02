@@ -19,23 +19,7 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
 				new AuthScope(host, port, realm, scheme),
 				new UsernamePasswordCredentials(username, password));
 	}
-
-	public HttpClientAdapterImpl(String username, String password, String host,
-			int port, String realm) {
-		httpClient = new HttpClient();
-		httpClient.getParams().setAuthenticationPreemptive(true);
-		httpClient.getState().setCredentials(new AuthScope(host, port, realm),
-				new UsernamePasswordCredentials(username, password));
-	}
-
-	public HttpClientAdapterImpl(String username, String password, String host,
-			int port) {
-		httpClient = new HttpClient();
-		httpClient.getParams().setAuthenticationPreemptive(true);
-		httpClient.getState().setCredentials(new AuthScope(host, port),
-				new UsernamePasswordCredentials(username, password));
-	}
-
+	
 	public int executeMethod(HttpMethod method) throws IOException {
 		return httpClient.executeMethod(method);
 	}

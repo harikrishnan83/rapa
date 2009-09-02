@@ -1,6 +1,6 @@
 package org.rest.rapa.formatter;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.rest.rapa.formatter.FormatHandlerFactory;
@@ -16,22 +16,21 @@ public class FormatHandlerFactoryTest {
 	public void setup() {
 		formatHandlerFactory = new FormatHandlerFactory();
 	}
-	
+
 	@Test
-	public void testShouldReturnXMLHandlerWhenPassedXMLAsFormat() {
-		Assert.assertEquals(XMLHandler.class, formatHandlerFactory
-				.create(Formats.XML).getClass());
+	public void shouldReturnXMLHandlerWhenPassedXMLAsFormat() {
+		assertEquals(XMLHandler.class, formatHandlerFactory.create(Formats.XML)
+				.getClass());
 	}
-	
+
 	@Test
-	public void testShouldReturnJSONHandlerWhenPassedJSONAsFormat() {
-		Assert.assertEquals(JSonHandler.class, formatHandlerFactory
-				.create(Formats.JSON).getClass());
+	public void shouldReturnJSONHandlerWhenPassedJSONAsFormat() {
+		assertEquals(JSonHandler.class, formatHandlerFactory.create(
+				Formats.JSON).getClass());
 	}
-	
+
 	@Test
-	public void testShouldIgnoreCaseWhenComparingStrings() {
-		Assert.assertEquals(XMLHandler.class, formatHandlerFactory
-				.create(Formats.XML).getClass());
+	public void shouldReturnNullWhenAnyOtherFormat() {
+		assertNull(formatHandlerFactory.create(null));
 	}
 }
