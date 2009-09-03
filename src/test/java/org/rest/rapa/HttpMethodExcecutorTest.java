@@ -24,7 +24,7 @@ public class HttpMethodExcecutorTest {
 	
 	@Test
 	public void testShouldExecuteGet() throws IOException {
-		when(mockHttpClientAdaptor.executeMethod((GetMethod) anyObject())).thenReturn(HttpStatus.SC_OK);
+		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class))).thenReturn(HttpStatus.SC_OK);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor);
 		httpMethodExecutor.get(URL);
 	}
@@ -38,7 +38,7 @@ public class HttpMethodExcecutorTest {
 
 	@Test
 	public void testShouldExecutePostMethod() throws IOException {
-		when(mockHttpClientAdaptor.executeMethod((PostMethod) anyObject())).thenReturn(HttpStatus.SC_CREATED);
+		when(mockHttpClientAdaptor.executeMethod(any(PostMethod.class))).thenReturn(HttpStatus.SC_CREATED);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor);
 		httpMethodExecutor.post(CONTENT, URL, CONTENT_TYPE);
 	}
@@ -52,7 +52,7 @@ public class HttpMethodExcecutorTest {
 
 	@Test
 	public void testShouldExecutePutMethod() throws IOException {
-		when(mockHttpClientAdaptor.executeMethod((PutMethod) anyObject())).thenReturn(HttpStatus.SC_OK);
+		when(mockHttpClientAdaptor.executeMethod(any(PutMethod.class))).thenReturn(HttpStatus.SC_OK);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor);
 		httpMethodExecutor.put(CONTENT, URL, CONTENT_TYPE);
 	}
@@ -66,7 +66,7 @@ public class HttpMethodExcecutorTest {
 
 	@Test
 	public void testShouldExecuteDeleteMethod() throws IOException {
-		when(mockHttpClientAdaptor.executeMethod((DeleteMethod) anyObject())).thenReturn(HttpStatus.SC_OK);
+		when(mockHttpClientAdaptor.executeMethod(any(DeleteMethod.class))).thenReturn(HttpStatus.SC_OK);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor);
 		httpMethodExecutor.delete(URL);
 	}
