@@ -4,12 +4,12 @@ import org.rest.rapa.formatter.Formats;
 
 public class RestClientBuilder {
 	private String url;
-	private String password;
-	private String username;
+	private String password = "";
+	private String username = "";
 	private String host;
 	private int port;
-	private String scheme;
-	private String realm;
+	private String scheme = "";
+	private String realm = "";
 	private Formats format;
 	private boolean formatAsExtenstion;
 	
@@ -17,7 +17,7 @@ public class RestClientBuilder {
 		this.url = url;
 		return this;
 	}
-	public RestClientBuilder withUsername(String username){
+	public RestClientBuilder withUserName(String username){
 		this.username = username;
 		return this;
 	}
