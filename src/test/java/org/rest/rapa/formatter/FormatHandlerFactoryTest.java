@@ -30,7 +30,8 @@ public class FormatHandlerFactoryTest {
 	}
 
 	@Test
-	public void shouldReturnNullWhenAnyOtherFormat() {
-		assertNull(formatHandlerFactory.create(null));
+	public void shouldReturnNullFormatHandlerWhenAnyOtherFormat() {
+		assertEquals(NullFormatHandler.class ,formatHandlerFactory.create(
+				null).getClass());
 	}
 }

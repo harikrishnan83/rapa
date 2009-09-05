@@ -8,7 +8,7 @@ public class FormatHandlerFactory {
 		} else if (Formats.JSON == format) {
 			return new JSonHandler();
 		}
-		return null;
+		return new NullFormatHandler();
 	}
 
 
