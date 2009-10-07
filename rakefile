@@ -6,7 +6,7 @@ Rake.application.options.trace = true
 task :default => [:test]
 
 task :test do
-  sh ant_path
+  system ant_path
 end
 
 def ant_path
