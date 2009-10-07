@@ -1,6 +1,8 @@
 # Ruby Rake file to allow automatic build testing on RunCodeRun.com
 require "rbconfig"
 
+Rake.application.options.trace = true
+
 task :default => [:test]
 
 task :test do
