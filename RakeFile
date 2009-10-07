@@ -1,0 +1,22 @@
+# Ruby Rake file to allow automatic build testing on RunCodeRun.com
+require "rbconfig"
+
+task :default => [:test]
+
+task :test do
+  sh ant_path
+end
+
+def ant_path
+  host_os = RbConfig::CONFIG['host_os']
+  ant_bin_path = File.join(Dir.pwd, "vendor", "ant", "bin")
+  case host_os
+  when /windows|win32|migw32/
+    ant_path = File.join(ant_bin_path, "ant.bat")
+  when /linux|darwin/
+    ant_path = File.join(ant_bin_path, "ant")
+  else
+    raise "Unknown OS. Unable to find the ant path"
+  end
+  return ant_path
+end
