@@ -1,24 +1,12 @@
 # Ruby Rake file to allow automatic build testing on RunCodeRun.com
-require "rbconfig"
 
 Rake.application.options.trace = true
 
 task :default => [:test]
 
+desc "Run test task for RunCodeRun CI"
 task :test do
-  system ant_path
+  classpath = [File.join(".","lib","ant.jar"), File.join(".","lib","ant-launcher.jar")].join(File::PATH_SEPARATOR)
+  system "java -cp #{classpath} org.apache.tools.ant.Main -emacs dist"
 end
 
-def ant_path
-  host_os = RbConfig::CONFIG['host_os']
-  ant_bin_path = File.join(Dir.pwd, "vendor", "ant", "bin")
-  case host_os
-  when /windows|win32|migw32/
-    ant_path = File.join(ant_bin_path, "ant.bat")
-  when /linux|darwin/
-    ant_path = File.join(ant_bin_path, "ant")
-  else
-    raise "Unknown OS. Unable to find the ant path"
-  end
-  return ant_path
-end
