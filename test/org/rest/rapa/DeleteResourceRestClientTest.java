@@ -11,21 +11,11 @@ import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 
-public class DeleteResourceRestClientTest {
-
-	private Url					resourceUrl;
-	private Resource			resource;
-	private FormatHandler		handler;
-	private HttpMethodExecutor	httpMethodExecutor;
-	private RestClient			client;
+public class DeleteResourceRestClientTest extends AbstractHttpMethodTest{
 
 	@Before
 	public void before() {
-		resourceUrl = new Url("http://test.com", "xml", false);
-		resource = new ResourceImpl(1);
-		handler = mock(FormatHandler.class);
-		httpMethodExecutor = mock(HttpMethodExecutor.class);
-		client = new RestClient(resourceUrl, handler, httpMethodExecutor);
+		super.before();
 	}
 
 	public void shouldDeleteResource() throws Exception {
