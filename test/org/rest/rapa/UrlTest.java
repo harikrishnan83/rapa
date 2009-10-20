@@ -8,7 +8,7 @@ public class UrlTest {
 
 	private static final int ID = 1;
 	private static final String EXTENSION = "xml";
-	private static final String BASEURL = "http://www.tst.com";
+	private static final String BASEURL = "http://www.test.com";
 	private Url url;
 
 	@Test

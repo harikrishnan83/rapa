@@ -21,7 +21,7 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 	public void shouldGetRequestedResource() throws Exception {
 		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
 				"<test>1</test>");
-		when(handler.deserialize("<test>1</test>", ResourceImpl.class))
+		when(formatHandler.deserialize("<test>1</test>", ResourceImpl.class))
 				.thenReturn(resource);
 		client.getById(1, ResourceImpl.class);
 	}
@@ -37,7 +37,7 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
 				"<test>1</test>");
 		client.getById(1, ResourceImpl.class);
-		verify(handler).deserialize("<test>1</test>", ResourceImpl.class);
+		verify(formatHandler).deserialize("<test>1</test>", ResourceImpl.class);
 	}
 
 	@Test(expected = RestClientException.class)
@@ -45,7 +45,7 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 			throws Exception {
 		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
 				"<test>1</test>");
-		doThrow(new Exception()).when(handler).deserialize("<test>1</test>",
+		doThrow(new Exception()).when(formatHandler).deserialize("<test>1</test>",
 				ResourceImpl.class);
 		client.getById(1, ResourceImpl.class);
 	}

@@ -5,87 +5,52 @@ import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 
-public class UpdateResourceRestClientTest {
-	@Test
-	public void shouldUpdateResource() throws Exception{
-		Url resourceUrl = new Url("http://test.com", "xml", false);
-		Resource resource = new ResourceImpl(1);
-		FormatHandler handler = mock(FormatHandler.class);
-		HttpMethodExecutor httpMethodExecutor = mock(HttpMethodExecutor.class);
-		RestClient client = new RestClient(resourceUrl,handler,httpMethodExecutor);
-		assertThatRestClientDoesnotThrowExceptionOnUpdate(resource, client);
+public class UpdateResourceRestClientTest extends AbstractHttpMethodTest {
+	@Before
+	public void before() {
+		super.before();
 	}
 
 	@Test
-	public void shouldSerializeResourceBeforeUpdating() throws Exception{
-		Url resourceUrl = new Url("http://test.com", "xml", false);
-		Resource resource = new ResourceImpl(1);
-		FormatHandler formatHandler = mock(FormatHandler.class);
-		HttpMethodExecutor httpMethodExecutor = mock(HttpMethodExecutor.class);
+	public void shouldUpdateResource() throws Exception {
+		client.update(resource);
+	}
+
+	@Test
+	public void shouldSerializeResourceBeforeUpdating() throws Exception {
 		when(formatHandler.serialize(resource)).thenReturn("<test>1</test>");
-		RestClient client = new RestClient(resourceUrl,formatHandler,httpMethodExecutor);
 		client.update(resource);
 		verify(formatHandler).serialize(resource);
-	}	
-	
+	}
+
 	@Test
-	public void shouldPostSerializedResource() throws Exception{
-		Url resourceUrl = new Url("http://test.com", "xml", false);
-		Resource resource = new ResourceImpl(1);
-		FormatHandler formatHandler = mock(FormatHandler.class);
-		HttpMethodExecutor httpMethodExecutor = mock(HttpMethodExecutor.class);
+	public void shouldPostSerializedResource() throws Exception {
 		when(formatHandler.serialize(resource)).thenReturn("<test>1</test>");
 		when(formatHandler.getContentType()).thenReturn("xml");
-		RestClient client = new RestClient(resourceUrl,formatHandler,httpMethodExecutor);
 		client.update(resource);
-		verify(httpMethodExecutor).put("<test>1</test>", "http://test.com/1", "xml");
-	}	
-	
-	@Test
-	public void shouldFailToUpdateIfUnableToSerializeResource() throws Exception{
-		Url resourceUrl = new Url("http://test.com", "xml", false);
-		Resource resource = new ResourceImpl(1);
-		FormatHandler formatHandler = mock(FormatHandler.class);
-		HttpMethodExecutor httpMethodExecutor = mock(HttpMethodExecutor.class);
-		doThrow(new Exception()).when(formatHandler).serialize(resource);
-		RestClient client = new RestClient(resourceUrl,formatHandler,httpMethodExecutor);
-		assertThatRestClientThrowsExceptionOnUpdate(resource, client);
+		verify(httpMethodExecutor).put("<test>1</test>", "http://test.com/1",
+				"xml");
 	}
-	
-	@Test
-	public void shouldFailToUpdateIfUnableToHttpPostResource() throws Exception{
-		Url resourceUrl = new Url("http://test.com", "xml", false);
-		Resource resource = new ResourceImpl(1);
-		FormatHandler formatHandler = mock(FormatHandler.class);
-		HttpMethodExecutor httpMethodExecutor = mock(HttpMethodExecutor.class);
+
+	@Test(expected = RestClientException.class)
+	public void shouldFailToUpdateIfUnableToSerializeResource()
+			throws Exception {
+		doThrow(new Exception()).when(formatHandler).serialize(resource);
+		client.update(resource);
+	}
+
+	@Test(expected = RestClientException.class)
+	public void shouldFailToUpdateIfUnableToHttpPostResource() throws Exception {
 		when(formatHandler.serialize(resource)).thenReturn("<test>1</test>");
 		when(formatHandler.getContentType()).thenReturn("xml");
-		doThrow(new IOException()).when(httpMethodExecutor).put("<test>1</test>", "http://test.com/1", "xml");
-		RestClient client = new RestClient(resourceUrl,formatHandler,httpMethodExecutor);
-		assertThatRestClientThrowsExceptionOnUpdate(resource, client);
-	}	
-
-	
-	private void assertThatRestClientThrowsExceptionOnUpdate(Resource resource,
-			RestClient client) {
-		try{
-			client.update(resource);
-			fail("Supposed to throw a RestClientException");
-		}catch (RestClientException e) {
-		}
+		doThrow(new IOException()).when(httpMethodExecutor).put(
+				"<test>1</test>", "http://test.com/1", "xml");
+		client.update(resource);
 	}
-	private void assertThatRestClientDoesnotThrowExceptionOnUpdate(
-			Resource resource, RestClient client) {
-		try{
-			client.update(resource);
-		}catch (RestClientException e) {
-			fail("Not supposed to throw a RestClientException");
-		}
-	}	
 }
-

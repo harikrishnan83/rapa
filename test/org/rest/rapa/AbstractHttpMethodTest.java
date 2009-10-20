@@ -10,7 +10,7 @@ import org.rest.rapa.resource.ResourceImpl;
 public abstract class AbstractHttpMethodTest {
 	protected Url					resourceUrl;
 	protected Resource			resource;
-	protected FormatHandler		handler;
+	protected FormatHandler		formatHandler;
 	protected HttpMethodExecutor	httpMethodExecutor;
 	protected RestClient			client;
 
@@ -18,8 +18,8 @@ public abstract class AbstractHttpMethodTest {
 	public void before() {
 		resourceUrl = new Url("http://test.com", "xml", false);
 		resource = new ResourceImpl(1);
-		handler = mock(FormatHandler.class);
+		formatHandler = mock(FormatHandler.class);
 		httpMethodExecutor = mock(HttpMethodExecutor.class);
-		client = new RestClient(resourceUrl, handler, httpMethodExecutor);
+		client = new RestClient(resourceUrl, formatHandler, httpMethodExecutor);
 	}
 }
