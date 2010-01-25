@@ -7,6 +7,6 @@ task :default => [:test]
 desc "Run test task for RunCodeRun CI"
 task :test do
   classpath = [File.join(".","lib","ant.jar"), File.join(".","lib","ant-launcher.jar")].join(File::PATH_SEPARATOR)
-  system "/usr/lib/jvm/java-6-sun-1.6.0.10/jre/bin/java -cp #{classpath} org.apache.tools.ant.Main -emacs dist"
+  system "java -cp #{classpath} org.apache.tools.ant.Main -emacs dist"
 end
 
