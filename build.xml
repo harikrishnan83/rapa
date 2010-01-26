@@ -30,15 +30,15 @@
                 <junit showoutput="true" haltonfailure="true">
                         <classpath>
                                 <pathelement location="${dist.dir}/${_temp}" />
-                                <pathelement location="${lib.dir}/junit-4.5.jar" />
+                                <pathelement location="${lib.dir}/junit.jar" />
                                 <pathelement location="${lib.dir}/ant-junit.jar" />
                                 <fileset dir="${lib.dir}" includes="*.jar" />
                         </classpath>
                         <formatter type="brief" usefile="false" />
                 	<batchtest fork="yes" todir="${dist}" haltonfailure="true">
                 	    <fileset dir="${test.dir}">
-                	      <include name="**/*Test*.java"/>
-                	    </fileset>
+                	      <exclude name="**/*Test*.java"/>
+						</fileset>
                 	 </batchtest>
                 </junit>
         </target>
