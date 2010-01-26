@@ -14,7 +14,7 @@ public class UrlTest {
 	@Test
 	public void shouldReturnResourceSpecificUrlWithExtension() {
 		url = new Url(BASEURL, EXTENSION, true);
-		assertEquals(BASEURL + "/" + ID + "." + EXTENSION, url.getResourceSpecificURL(ID));
+		assertEquals("", url.getResourceSpecificURL(ID));
 	}
 
 	@Test
