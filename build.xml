@@ -37,7 +37,8 @@
                         <formatter type="brief" usefile="false" />
                 	<batchtest fork="yes" todir="${dist}" haltonfailure="true">
                 	    <fileset dir="${test.dir}">
-                	      <exclude name="**/*Test*.java"/>
+                	      <include name="**/*Test*.java"/>
+                	      <exclude name="**/*Abstract*.java"/>
 						</fileset>
                 	 </batchtest>
                 </junit>
