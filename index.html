@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+	<title>harikrishnan83/rapa @ GitHub</title>
+	
+	<style type="text/css">
+		body {
+  		margin-top: 1.0em;
+  		background-color: #000000;
+		  font-family: "Helvetica,Arial,FreeSans"; 
+  		color: #ffffff;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+		h1 { font-size: 3.8em; color: #ffffff; margin-bottom: 3px; }
+		h1 .small { font-size: 0.4em; }
+		h1 a { text-decoration: none }
+		h2 { font-size: 1.5em; color: #ffffff; }
+    h3 { text-align: center; color: #ffffff; }
+    a { color: #ffffff; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+		pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+	</style>
+	
+</head>
+
+<body>
+  <a href="http://github.com/harikrishnan83/rapa"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+  
+  <div id="container">
+
+    <div class="download">
+      <a href="http://github.com/harikrishnan83/rapa/zipball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+      <a href="http://github.com/harikrishnan83/rapa/tarball/master">
+        <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    </div>
+      
+    <h1><a href="http://github.com/harikrishnan83/rapa">rapa</a> 
+      <span class="small">by <a href="http://github.com/harikrishnan83">harikrishnan83</a></span></h1>
+
+    <div class="description">
+      ActiveResource like RESTClient for java 
+    </div>
+
+    <p>Typical Usage:
+
+All you need are the url, username, password, scheme and realm. You could choose to leave out properties like username, password, scheme and realm if not applicable
+
+RestClient restClient = new RestClientBuilder().withUrl("http://localhost:8080/customers")
+                                               .withUserName("username")
+                                               .withPassword("password")
+                                               .withScheme(AuthScheme.BASIC)
+                                               .withRealm("realm")
+                                               .withFormat(Formats.JSON)
+                                               .donotUseFormatInExtension()
+                                               .build();
+
+Create
+
+Customer customer = new Customer();
+customer.setName("Hari");
+restClient.save(customer);
+
+Read
+
+customer = (Customer) restClient.getById(1, Customer.class);
+
+Update
+
+customer.setName("rapa");
+restClient.update(customer);
+
+Delete
+
+restClient.delete(customer);
+
+Authentication
+
+It supports authentication schemes supported by org.apache.commons.httpclient.auth.AuthPolicy?.
+
+AuthPolicy.BASIC
+AuthPolicy.DIGEST
+AuthPolicy.NTLM
+
+and more
+
+These may be set while constructing the RestClient?.
+New Features
+
+The latest release supports both json and xml :). You may also decide if the format will be used in the construction of the url
+
+Setting the useFormatAsExtension parameter to true while constructing the RestClient? will generate urls as shown below, internally
+
+http://localhost:8080/customers.xml
+http://localhost:8080/customers.json
+http://localhost:8080/customers/1.xml
+http://localhost:8080/customers/1.json
+
+Setting the useFormatAsExtension parameter to false while constructing the RestClient? will leave out the extension
+
+http://localhost:8080/customers/1
+http://localhost:8080/customers
+
+Contributing
+
+Use it and let us know your comments. As always your comments are most welcome.
+
+If you want to be a contributor on this project send a mail to rapa-programmers at gmail dot com.
+
+more info
+
+Check out the code to get a sneak peak of the improvements. We welcome critical feedback. </p><h2>Authors</h2>
+<p>harikrishnan83 (harikrishnan83@gmail.com)<br/>Martin Mauch (mauch@crealytics.de)<br/>sai_venkat (s.sai.venkat@gmail.com)<br/>Venkatesh Sampath R (venkatesh.sampathr@gmail.com)<br/><br/>      </p>
+<h2>Contact</h2>
+<p>HariKrishnan (harikrishnan83@gmail.com)<br/>      </p>
+
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/harikrishnan83/rapa/zipball/master">zip</a> or
+      <a href="http://github.com/harikrishnan83/rapa/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+      by running:
+      <pre>$ git clone git://github.com/harikrishnan83/rapa</pre>
+    </p>
+      
+    <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/harikrishnan83/rapa">harikrishnan83/rapa</a>
+    </div>
+    
+  </div>
+
+  
+</body>
+</html>
