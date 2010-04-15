@@ -1,5 +1,8 @@
 package org.rest.rapa.formatter;
 
+import org.rest.rapa.formatter.JAXB.XMLHandler;
+import org.rest.rapa.formatter.json.JSonHandler;
+
 public class FormatHandlerFactory {
 
 	public FormatHandler create(Formats format) {

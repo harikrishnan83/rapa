@@ -1,4 +1,4 @@
-package org.rest.rapa.formatter;
+package org.rest.rapa.formatter.json;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;

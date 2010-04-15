@@ -1,8 +1,9 @@
-package org.rest.rapa.formatter;
+package org.rest.rapa.formatter.JAXB;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.fail;
 import org.junit.Test;
+import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 

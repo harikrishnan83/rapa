@@ -1,14 +1,13 @@
 package org.rest.rapa;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.rest.rapa.formatter.FormatHandler;
-import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 
 public class GetResourceRestClientTest extends AbstractHttpMethodTest {

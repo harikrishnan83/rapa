@@ -5,8 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.rest.rapa.formatter.FormatHandlerFactory;
 import org.rest.rapa.formatter.Formats;
-import org.rest.rapa.formatter.JSonHandler;
-import org.rest.rapa.formatter.XMLHandler;
+import org.rest.rapa.formatter.JAXB.XMLHandler;
+import org.rest.rapa.formatter.json.JSonHandler;
 
 public class FormatHandlerFactoryTest {
 

@@ -1,5 +1,6 @@
-package org.rest.rapa.formatter;
+package org.rest.rapa.formatter.JAXB;
 
+import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
 
 import javax.xml.bind.JAXB;
