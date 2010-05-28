@@ -1,5 +1,6 @@
 package org.rest.rapa;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,6 +9,10 @@ import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.*;
+import org.mockito.internal.matchers.Any;
+import org.rest.rapa.resource.Resource;
 
 public class SaveResourceRestClientTest extends AbstractHttpMethodTest {
 	@Before
@@ -50,4 +55,49 @@ public class SaveResourceRestClientTest extends AbstractHttpMethodTest {
 				"<test>1</test>", "http://test.com", "xml");
 		client.save(resource);
 	}
+	
+	@Test
+	public void shouldSetIdOnSuccessfulSave() throws Exception {
+		TestResource testResource = new TestResource("HoldenVCaulfield");
+		when(formatHandler.serialize(testResource)).thenReturn("<test>1</test>");
+		when(formatHandler.getContentType()).thenReturn("xml");
+		when(httpMethodExecutor.post("<test>1</test>", "http://test.com","xml")).thenReturn("response");
+		when(formatHandler.deserialize("response", TestResource.class)).thenReturn(new TestResource("name", 1));
+
+		assertEquals(0, testResource.getId());
+		
+		client.save(testResource);
+		
+		assertEquals(1, testResource.getId());
+	}
+}
+
+class TestResource implements Resource {
+
+	private final String name;
+	private int id;
+
+	public TestResource(String name) {
+		this.name = name;
+	}
+
+	public TestResource(String name, int id) {
+		this.name = name;
+		this.id = id;
+	}
+
+	@Override
+	public int getId() {
+		return id;
+	}
+
+	@Override
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
 }

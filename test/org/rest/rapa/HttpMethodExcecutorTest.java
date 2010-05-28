@@ -7,6 +7,8 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
@@ -47,6 +49,20 @@ public class HttpMethodExcecutorTest {
 		when(mockHttpMethodProvider.postMethod()).thenReturn(new PostMethod());
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
 		httpMethodExecutor.post(CONTENT, URL, CONTENT_TYPE);
+	}
+	
+	@Test
+	public void testShouldReturnReturnPostMethodResponseBody() throws IOException {
+		when(mockHttpClientAdaptor.executeMethod(any(PostMethod.class))).thenReturn(HttpStatus.SC_CREATED);
+		PostMethod postMethod = new PostMethod() {
+			public byte[] getResponseBody() {
+				return new String("expectedResponse").getBytes();
+			}
+		};
+		when(mockHttpMethodProvider.postMethod()).thenReturn(postMethod);
+		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
+		
+	    assertEquals("expectedResponse", httpMethodExecutor.post(CONTENT, URL, CONTENT_TYPE));
 	}
 
 	@Test(expected = RuntimeException.class)

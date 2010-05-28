@@ -11,10 +11,6 @@ import org.rest.rapa.resource.ResourceImpl;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-
-import javax.xml.bind.JAXB;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 	
 public class XMLHandlerTest {
 	private XStream xStream;

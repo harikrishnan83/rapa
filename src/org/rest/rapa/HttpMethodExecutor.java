@@ -24,13 +24,13 @@ public class HttpMethodExecutor {
 		return execute(url, httpMethodProvider.getMethod(), HttpStatus.SC_OK);
 	}
 
-	void post(String content, String url, String contentType)
+	String post(String content, String url, String contentType)
 			throws IOException {
 		PostMethod postMethod = httpMethodProvider.postMethod();
 		postMethod.setRequestHeader(CONTENT_TYPE, contentType);
 		postMethod.setRequestEntity(new StringRequestEntity(content,
 				contentType, UTF_8));
-		execute(url, postMethod, HttpStatus.SC_CREATED);
+		return execute(url, postMethod, HttpStatus.SC_CREATED);
 	}
 
 	void put(String xml, String url, String contentType) throws IOException {
