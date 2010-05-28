@@ -9,7 +9,7 @@ public class RestClient {
 	private final FormatHandler formatHandler;
 	private final Url resourceUrl;
 	private final HttpMethodExecutor httpMethodExecutor;
-	private Log log = LogFactory.getFactory().getInstance(RestClient.class);	
+	private Log log = LogFactory.getLog(RestClient.class);	
 	
 	public RestClient(Url url, FormatHandler formatHandler,
 			HttpMethodExecutor httpMethodExecutor) {

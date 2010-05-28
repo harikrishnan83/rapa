@@ -28,7 +28,7 @@ public class HttpMethodExcecutorTest {
 	}
 	
 	@Test
-	public void testShouldExecuteGet() throws IOException {
+	public void shouldExecuteGet() throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class))).thenReturn(HttpStatus.SC_OK);
 		when(mockHttpMethodProvider.getMethod()).thenReturn(new GetMethod());
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
@@ -36,7 +36,7 @@ public class HttpMethodExcecutorTest {
 	}
 	
 	@Test(expected = RuntimeException.class)
-	public void testShouldThrowAnExceptionWhenHTTPStatusIsNotOK()
+	public void shouldThrowAnExceptionWhenHTTPStatusIsNotOK()
 			throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class))).thenReturn(HttpStatus.SC_NOT_FOUND);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
@@ -44,7 +44,7 @@ public class HttpMethodExcecutorTest {
 	}
 
 	@Test
-	public void testShouldExecutePostMethod() throws IOException {
+	public void shouldExecutePostMethod() throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(PostMethod.class))).thenReturn(HttpStatus.SC_CREATED);
 		when(mockHttpMethodProvider.postMethod()).thenReturn(new PostMethod());
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
@@ -52,7 +52,7 @@ public class HttpMethodExcecutorTest {
 	}
 	
 	@Test
-	public void testShouldReturnReturnPostMethodResponseBody() throws IOException {
+	public void shouldReturnReturnPostMethodResponseBody() throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(PostMethod.class))).thenReturn(HttpStatus.SC_CREATED);
 		PostMethod postMethod = new PostMethod() {
 			public byte[] getResponseBody() {
@@ -66,7 +66,7 @@ public class HttpMethodExcecutorTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testShouldThrowAnExceptionIfPostDataHTTPStatusIsNotCreated()
+	public void shouldThrowAnExceptionIfPostDataHTTPStatusIsNotCreated()
 			throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class))).thenReturn(HttpStatus.SC_FORBIDDEN);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
@@ -82,7 +82,7 @@ public class HttpMethodExcecutorTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testShouldThrowAnExceptionIfUpdateDataHTTPStatusIsNotAccepted()
+	public void shouldThrowAnExceptionIfUpdateDataHTTPStatusIsNotAccepted()
 			throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class))).thenReturn(HttpStatus.SC_FORBIDDEN);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);
@@ -90,7 +90,7 @@ public class HttpMethodExcecutorTest {
 	}
 
 	@Test
-	public void testShouldExecuteDeleteMethod() throws IOException {
+	public void shouldExecuteDeleteMethod() throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(DeleteMethod.class))).thenReturn(HttpStatus.SC_OK);
 		when(mockHttpMethodProvider.deleteMethod()).thenReturn(new DeleteMethod());
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor,mockHttpMethodProvider);
@@ -98,7 +98,7 @@ public class HttpMethodExcecutorTest {
 	}
 
 	@Test(expected = RuntimeException.class)
-	public void testShouldThrowAnExceptionIfDeleteHTTPStatusIsNotOK()
+	public void shouldThrowAnExceptionIfDeleteHTTPStatusIsNotOK()
 			throws IOException {
 		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class))).thenReturn(HttpStatus.SC_FORBIDDEN);
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(mockHttpClientAdaptor, mockHttpMethodProvider);

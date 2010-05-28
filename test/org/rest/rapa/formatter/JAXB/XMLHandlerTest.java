@@ -15,17 +15,17 @@ import java.io.OutputStream;
 public class XMLHandlerTest {
 	
 	@Test
-	public void testShouldReturnXMLAsExtension() {
+	public void shouldReturnXMLAsExtension() {
 		assertEquals("xml", getXMLHandler().getExtension());
 	}
 	
 	@Test
-	public void testShouldReturnContentType() {
+	public void shouldReturnContentType() {
 		assertEquals("text/xml", getXMLHandler().getContentType());
 	}
 	
 	@Test
-	public void restShouldSerializeSingleResource() {
+	public void shouldSerializeSingleResource() {
 		Resource resource = new ResourceImpl();
 		resource.setId(1);
 		try {
@@ -37,7 +37,7 @@ public class XMLHandlerTest {
 	}
 
 	@Test
-	public void testShouldDeserializeSingleResource() {
+	public void shouldDeserializeSingleResource() {
 		Resource resource = new ResourceImpl();
 		resource.setId(1);
 		try {

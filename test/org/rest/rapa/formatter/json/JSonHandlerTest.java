@@ -22,7 +22,7 @@ public class JSonHandlerTest {
 	}
 	
 	@Test
-	public void testIfTheJSonContentIsDecodedToAppropriateResourceObject() throws JSONException {
+	public void JSonContentShouldBeDecodedToAppropriateResourceObject() throws JSONException {
 			String jsonContent = handler.serialize(resourceImpl);
 			Resource deserialisedResource = handler.deserialize(jsonContent,
 					ResourceImpl.class);
@@ -32,7 +32,7 @@ public class JSonHandlerTest {
 	}
 
 	@Test
-	public void testIfTheResourceObjectIsEncodedToAppropriateJSonFormat() throws JSONException {
+	public void resourceObjectShouldBeEncodedToAppropriateJSonFormat() throws JSONException {
 			String jsonContent = handler.serialize(resourceImpl);
 			Resource deserialisedResource = handler.deserialize(jsonContent,
 					ResourceImpl.class);
@@ -41,12 +41,12 @@ public class JSonHandlerTest {
 	}
 	
 	@Test
-	public void testShouldReturnXMLAsExtension() {
+	public void shouldReturnXMLAsExtension() {
 		assertEquals("json", handler.getExtension());
 	}
 	
 	@Test
-	public void testShouldReturnContentType() {
+	public void shouldReturnContentType() {
 		assertEquals("text/json", handler.getContentType());
 	}
 
