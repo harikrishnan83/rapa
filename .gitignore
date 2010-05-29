@@ -2,4 +2,7 @@
 .project
 bin
 dist
+build
+.gradle
+*.swp
 *junit*
