@@ -1,0 +1,84 @@
+ActiveResource  like RESTClient for java
+
+Typical Usage:
+
+All you need are the url, username, password, scheme and realm. You could choose to leave out properties like username, 
+password, scheme and realm if not applicable
+
+RestClient restClient = new RestClientBuilder().withUrl("http://localhost:8080/customers&quot;)
+                                               .withUserName("username")
+                                               .withPassword("password")
+                                               .withScheme(AuthScheme.BASIC)
+                                               .withRealm("realm")
+                                               .withFormat(Formats.JSON)
+                                               .donotUseFormatInExtension()
+                                               .build();
+
+Create
+------
+
+Customer customer = new Customer();
+customer.setName("Hari");
+restClient.save(customer);
+
+update: Thanks to Marlin Engel, the save now also update the id on the resource. Keep watching this space for more updates.
+
+Read
+----
+
+customer = (Customer) restClient.getById(1, Customer.class);
+
+Update
+------
+
+customer.setName("rapa");
+restClient.update(customer);
+
+Delete
+------
+
+restClient.delete(customer);
+
+Authentication
+--------------
+
+It supports authentication schemes supported by org.apache.commons.httpclient.auth.AuthPolicy?.
+
+AuthPolicy.BASIC
+AuthPolicy.DIGEST
+AuthPolicy.NTLM
+
+and more
+
+These may be set while constructing the RestClient?.
+New Features
+
+The latest release supports both json and xml :). You may also decide if the format will be used in the construction of 
+the url
+
+Setting the useFormatAsExtension parameter to true while constructing the RestClient? will generate urls as shown below, 
+internally
+
+http://localhost:8080/customers.xml
+http://localhost:8080/customers.json
+http://localhost:8080/customers/1.xml
+http://localhost:8080/customers/1.json
+
+Setting the useFormatAsExtension parameter to false while constructing the RestClient? will leave out the extension
+
+http://localhost:8080/customers/1
+http://localhost:8080/customers
+
+Contributing
+
+Use it and let us know your comments. As always your comments are most welcome.
+
+If you want to be a contributor on this project send a mail to rapa-programmers at gmail dot com.
+
+more info
+
+Check out the code to get a sneak peak of the improvements. We welcome critical feedback.
+Quality
+
+We strive to write better code and time to time try to better ourselves with review and metrics. One such metric is the 
+testability explorer report. Below are the testability explorer report for relase 0.8. 
