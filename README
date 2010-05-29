@@ -69,6 +69,8 @@ Setting the useFormatAsExtension parameter to false while constructing the RestC
 http://localhost:8080/customers/1
 http://localhost:8080/customers
 
+Take a look at the wiki pages for more information. We are making the api much more easy to use in the next release. 
+
 Contributing
 
 Use it and let us know your comments. As always your comments are most welcome.
@@ -80,5 +82,4 @@ more info
 Check out the code to get a sneak peak of the improvements. We welcome critical feedback.
 Quality
 
-We strive to write better code and time to time try to better ourselves with review and metrics. One such metric is the 
-testability explorer report. Below are the testability explorer report for relase 0.8. 
+We strive to write better code and time to time try to better ourselves with review and metrics.

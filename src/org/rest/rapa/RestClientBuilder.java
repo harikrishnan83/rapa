@@ -48,17 +48,17 @@ public class RestClientBuilder {
 		return this;
 	}
 	
-	public RestClientBuilder withBasicAuthentication(List<String> authenticationPreferences) {
+	public RestClientBuilder withBasicAuthentication() {
 		this.authenticationPrefefences.add(AuthPolicy.BASIC);
 		return this;
 	}
 	
-	public RestClientBuilder withDigestAuthentication(List<String> authenticationPreferences) {
+	public RestClientBuilder withDigestAuthentication() {
 		this.authenticationPrefefences.add(AuthPolicy.DIGEST);
 		return this;
 	}
 	
-	public RestClientBuilder withNTLMAuthentication(List<String> authenticationPreferences) {
+	public RestClientBuilder withNTLMAuthentication() {
 		this.authenticationPrefefences.add(AuthPolicy.NTLM);
 		return this;
 	}
