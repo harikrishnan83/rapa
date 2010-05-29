@@ -21,7 +21,7 @@ Customer customer = new Customer();
 customer.setName("Hari");
 restClient.save(customer);
 
-update: Thanks to Marlin Engel, the save now also update the id on the resource. Keep watching this space for more updates.
+update: Thanks to Marlin Engel, the save now also sets the id on the resource. Keep watching this space for more updates.
 
 Read
 ----
