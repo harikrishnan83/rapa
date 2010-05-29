@@ -1,7 +1,10 @@
 package org.rest.rapa;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.commons.httpclient.auth.AuthPolicy;
 import org.rest.rapa.formatter.FormatHandlerFactory;
 import org.rest.rapa.formatter.Formats;
 
@@ -13,15 +16,18 @@ public class RestClientBuilder {
 	private String realm = "";
 	private Formats format;
 	private boolean formatAsExtenstion;
+	private List<String> authenticationPrefefences = new ArrayList<String>();
 	
 	public RestClientBuilder withUrl(String url){
 		this.url = url;
 		return this;
 	}
+	
 	public RestClientBuilder withUserName(String username){
 		this.username = username;
 		return this;
 	}
+	
 	public RestClientBuilder withPassword(String password){
 		this.password = password;
 		return this;
@@ -42,13 +48,23 @@ public class RestClientBuilder {
 		return this;
 	}
 	
-	public RestClientBuilder useFormatAsExtension(){
-		this.formatAsExtenstion = true;
+	public RestClientBuilder withBasicAuthentication(List<String> authenticationPreferences) {
+		this.authenticationPrefefences.add(AuthPolicy.BASIC);
 		return this;
 	}
-
-	public RestClientBuilder donotUseFormatAsExtension(){
-		this.formatAsExtenstion = false;
+	
+	public RestClientBuilder withDigestAuthentication(List<String> authenticationPreferences) {
+		this.authenticationPrefefences.add(AuthPolicy.DIGEST);
+		return this;
+	}
+	
+	public RestClientBuilder withNTLMAuthentication(List<String> authenticationPreferences) {
+		this.authenticationPrefefences.add(AuthPolicy.NTLM);
+		return this;
+	}
+		
+	public RestClientBuilder useFormatAsExtension(){
+		this.formatAsExtenstion = true;
 		return this;
 	}
 	
@@ -56,7 +72,7 @@ public class RestClientBuilder {
 		FormatHandlerFactory formatHandlerFactory = new FormatHandlerFactory();
 		formatHandlerFactory.create(format);
 		HttpClientAdapterImpl httpClientAdapter = new HttpClientAdapterImpl(
-		username, password, host(), port(), realm, scheme);
+		username, password, host(), port(), realm, scheme, authenticationPrefefences);
 		HttpMethodProvider httpMethodProvider = new HttpMethodProvider();
 		
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(httpClientAdapter, httpMethodProvider);
