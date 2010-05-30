@@ -7,12 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.LogFactory;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
-import static org.mockito.Mockito.*;
-import org.mockito.internal.matchers.Any;
 import org.rest.rapa.resource.Resource;
 
 public class SaveResourceRestClientTest extends AbstractHttpMethodTest {
