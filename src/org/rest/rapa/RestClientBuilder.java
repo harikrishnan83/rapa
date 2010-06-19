@@ -4,6 +4,9 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+
 import org.apache.commons.httpclient.auth.AuthPolicy;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.formatter.JAXB.XMLHandler;
@@ -17,7 +20,7 @@ public class RestClientBuilder {
 	private boolean formatAsExtenstion;
 	private List<String> authenticationPrefefences = new ArrayList<String>();
 	private FormatHandler formatHandler = new XMLHandler();
-
+	
 	public RestClientBuilder withUrl(String url) {
 		this.url = url;
 		return this;
@@ -67,15 +70,20 @@ public class RestClientBuilder {
 		this.formatAsExtenstion = true;
 		return this;
 	}
-
+	
 	public RestClient build() throws MalformedURLException {
 		HttpClientAdapterImpl httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host(), port(), realm, scheme,
 				authenticationPrefefences);
 		HttpMethodProvider httpMethodProvider = new HttpMethodProvider();
-
+		
+		
+		CacheManager singletonCacheManager = CacheManager.getInstance();
+		singletonCacheManager.addCache("client cache");
+		Cache clientCache = singletonCacheManager.getCache("client cache");
+		
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
-				httpClientAdapter, httpMethodProvider);
+				httpClientAdapter, httpMethodProvider, clientCache, singletonCacheManager);
 		Url resourceUrl = new Url(url, formatHandler.getExtension(),
 				formatAsExtenstion);
 
