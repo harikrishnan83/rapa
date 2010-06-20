@@ -11,7 +11,6 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.PutMethod;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -50,15 +49,9 @@ public class HttpMethodExcecutorTest {
 		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class)))
 				.thenReturn(HttpStatus.SC_OK);
 
-		when(mockHttpMethodProvider.getMethod()).thenReturn(new GetMethod() {
-			@Override
-			public Header getResponseHeader(String headerName) {
-				Header header = new Header();
-				header.setName("max-age");
-				header.setValue("0");
-				return header;
-			}
-		});
+		String cacheControlHeaderValue = "max-age=0, public";
+		when(mockHttpMethodProvider.getMethod()).thenReturn(
+				createGetMethod(cacheControlHeaderValue));
 
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
@@ -66,11 +59,46 @@ public class HttpMethodExcecutorTest {
 		httpMethodExecutor.get(URL);
 	}
 
-	@Ignore
 	@Test
 	public void shouldCacheResourceIfMaxAgeIsGreaterThanZero()
 			throws IOException {
-		//TODO
+		when(mockCache.get(URL)).thenReturn(null);
+
+		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class)))
+				.thenReturn(HttpStatus.SC_OK);
+
+		String cacheControlHeaderValue = "max-age=1, public";
+		when(mockHttpMethodProvider.getMethod()).thenReturn(
+				createGetMethod(cacheControlHeaderValue));
+
+		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
+				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
+				mockCacheManager);
+
+		httpMethodExecutor.get(URL);
+
+		verify(mockCache).put(any(Element.class));
+	}
+
+	@Test
+	public void shouldNotCacheResourceIfMaxAgeIsLessThanOne()
+			throws IOException {
+		when(mockCache.get(URL)).thenReturn(null);
+
+		when(mockHttpClientAdaptor.executeMethod(any(GetMethod.class)))
+				.thenReturn(HttpStatus.SC_OK);
+
+		String cacheControlHeaderValue = "max-age=0, public";
+		when(mockHttpMethodProvider.getMethod()).thenReturn(
+				createGetMethod(cacheControlHeaderValue));
+
+		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
+				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
+				mockCacheManager);
+
+		httpMethodExecutor.get(URL);
+
+		verify(mockCache, never()).put(any(Element.class));
 	}
 
 	@Test(expected = RuntimeException.class)
@@ -167,5 +195,17 @@ public class HttpMethodExcecutorTest {
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
 				mockCacheManager);
 		httpMethodExecutor.delete(URL);
+	}
+
+	private GetMethod createGetMethod(final String cacheControlHeaderValue) {
+		return new GetMethod() {
+			@Override
+			public Header getResponseHeader(String headerName) {
+				Header header = new Header();
+				header.setName("Cache-Control");
+				header.setValue(cacheControlHeaderValue);
+				return header;
+			}
+		};
 	}
 }
