@@ -9,8 +9,8 @@ public class RestClient {
 	private final FormatHandler formatHandler;
 	private final Url resourceUrl;
 	private final HttpMethodExecutor httpMethodExecutor;
-	private Log log = LogFactory.getLog(RestClient.class);	
-	
+	private Log log = LogFactory.getLog(RestClient.class);
+
 	public RestClient(Url url, FormatHandler formatHandler,
 			HttpMethodExecutor httpMethodExecutor) {
 
@@ -25,8 +25,9 @@ public class RestClient {
 			String url = resourceUrl.getURL();
 			String contentType = formatHandler.getContentType();
 
-			String response = httpMethodExecutor.post(serializedResource, url,contentType);
-			
+			String response = httpMethodExecutor.post(serializedResource, url,
+					contentType);
+
 			tryToSetIdOnResource(resource, response);
 		} catch (Exception e) {
 			throw new RestClientException("Error while saving resource", e);
@@ -36,9 +37,12 @@ public class RestClient {
 
 	private void tryToSetIdOnResource(Resource resource, String response) {
 		try {
-			resource.setId(formatHandler.deserialize(response, resource.getClass()).getId());
+			resource.setId(formatHandler.deserialize(response,
+					resource.getClass()).getId());
 		} catch (Exception e) {
-			log.info(new StringBuilder("Resource id could not be set using response ").append(response), e);
+			log.info(new StringBuilder(
+					"Resource id could not be set using response ")
+					.append(response), e);
 		}
 	}
 
@@ -61,15 +65,14 @@ public class RestClient {
 		}
 	}
 
-	public Resource getById(int id, Class<?> type) throws RestClientException {
-		Resource resource;
+	public Resource getById(int id, Class<? extends Resource> type)
+			throws RestClientException {
 		try {
-			resource = formatHandler.deserialize(httpMethodExecutor
-					.get(resourceUrl.getResourceSpecificURL(id)), type);
+			return formatHandler.deserialize(httpMethodExecutor.get(resourceUrl
+					.getResourceSpecificURL(id)), type);
 		} catch (Exception e) {
 			throw new RestClientException("Error while getting resource", e);
 		}
-		return resource;
 	}
 
 }

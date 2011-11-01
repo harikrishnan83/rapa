@@ -52,19 +52,23 @@ public class SaveResourceRestClientTest extends AbstractHttpMethodTest {
 				"<test>1</test>", "http://test.com", "xml");
 		client.save(resource);
 	}
-	
+
 	@Test
 	public void shouldSetIdOnSuccessfulSave() throws Exception {
 		TestResource testResource = new TestResource("HoldenVCaulfield");
-		when(formatHandler.serialize(testResource)).thenReturn("<test>1</test>");
+		when(formatHandler.serialize(testResource))
+				.thenReturn("<test>1</test>");
 		when(formatHandler.getContentType()).thenReturn("xml");
-		when(httpMethodExecutor.post("<test>1</test>", "http://test.com","xml")).thenReturn("response");
-		when(formatHandler.deserialize("response", TestResource.class)).thenReturn(new TestResource("name", 1));
+		when(
+				httpMethodExecutor.post("<test>1</test>", "http://test.com",
+						"xml")).thenReturn("response");
+		when(formatHandler.deserialize("response", TestResource.class))
+				.thenReturn(new TestResource("name", 1));
 
 		assertEquals(0, testResource.getId());
-		
+
 		client.save(testResource);
-		
+
 		assertEquals(1, testResource.getId());
 	}
 }
@@ -96,5 +100,5 @@ class TestResource implements Resource {
 	public String getName() {
 		return name;
 	}
-	
+
 }

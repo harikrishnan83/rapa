@@ -5,7 +5,7 @@ import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DeleteResourceRestClientTest extends AbstractHttpMethodTest{
+public class DeleteResourceRestClientTest extends AbstractHttpMethodTest {
 
 	@Before
 	public void before() {

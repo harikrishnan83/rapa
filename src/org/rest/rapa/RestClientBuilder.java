@@ -20,7 +20,7 @@ public class RestClientBuilder {
 	private boolean formatAsExtenstion;
 	private List<String> authenticationPrefefences = new ArrayList<String>();
 	private FormatHandler formatHandler = new XMLHandler();
-	
+
 	public RestClientBuilder withUrl(String url) {
 		this.url = url;
 		return this;
@@ -70,20 +70,20 @@ public class RestClientBuilder {
 		this.formatAsExtenstion = true;
 		return this;
 	}
-	
+
 	public RestClient build() throws MalformedURLException {
 		HttpClientAdapterImpl httpClientAdapter = new HttpClientAdapterImpl(
 				username, password, host(), port(), realm, scheme,
 				authenticationPrefefences);
 		HttpMethodProvider httpMethodProvider = new HttpMethodProvider();
-		
-		
+
 		CacheManager singletonCacheManager = CacheManager.getInstance();
 		singletonCacheManager.addCache("client cache");
 		Cache clientCache = singletonCacheManager.getCache("client cache");
-		
+
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
-				httpClientAdapter, httpMethodProvider, clientCache, singletonCacheManager);
+				httpClientAdapter, httpMethodProvider, clientCache,
+				singletonCacheManager);
 		Url resourceUrl = new Url(url, formatHandler.getExtension(),
 				formatAsExtenstion);
 

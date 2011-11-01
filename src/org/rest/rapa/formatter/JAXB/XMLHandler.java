@@ -1,16 +1,17 @@
 package org.rest.rapa.formatter.JAXB;
 
-import org.rest.rapa.formatter.FormatHandler;
-import org.rest.rapa.resource.Resource;
-
-import javax.xml.bind.JAXB;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
 
+import javax.xml.bind.JAXB;
+
+import org.rest.rapa.formatter.FormatHandler;
+import org.rest.rapa.resource.Resource;
+
 public class XMLHandler implements FormatHandler {
 
-	public Resource deserialize(String content, Class<?> clazz) {
+	public Resource deserialize(String content, Class<? extends Resource> clazz) {
 		return (Resource) JAXB.unmarshal(new StringReader(content), clazz);
 	}
 

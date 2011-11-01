@@ -1,31 +1,25 @@
 package org.rest.rapa.formatter.json;
 
-import org.json.me.JSONException;
-import org.json.me.JSONObject;
-import org.json.me.util.XML;
 import org.rest.rapa.formatter.FormatHandler;
-import org.rest.rapa.formatter.JAXB.XMLHandler;
 import org.rest.rapa.resource.Resource;
+
+import com.google.gson.Gson;
 
 public class JSonHandler implements FormatHandler {
 
-	public Resource deserialize(String content, Class<?> resourceType)
-			throws JSONException {
+	public Resource deserialize(String content,
+			Class<? extends Resource> resourceType) {
 		if (content == null || content.trim().length() == 0) {
 			return null;
 		}
-		JSONObject jsonContent = new JSONObject(content);
-		String xmlContent = XML.toString(jsonContent);
-		return new XMLHandler().deserialize(xmlContent, resourceType);
+		return new Gson().fromJson(content, resourceType);
 	}
 
-	public String serialize(Resource resource) throws JSONException {
+	public String serialize(Resource resource) {
 		if (resource == null) {
 			return null;
 		}
-		String encodedXml = new XMLHandler().serialize(resource);
-		JSONObject json = XML.toJSONObject(encodedXml.trim());
-		return json.toString();
+		return new Gson().toJson(resource);
 	}
 
 	public String getExtension() {
@@ -35,4 +29,5 @@ public class JSonHandler implements FormatHandler {
 	public String getContentType() {
 		return "text/json";
 	}
+
 }

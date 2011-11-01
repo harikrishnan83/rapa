@@ -45,8 +45,7 @@ public class Url {
 	public int getPort() throws MalformedURLException {
 		int port = new URL(baseUrl).getPort();
 		int defaultPort = 80;
-		if (isPortSpecifiedInUrl(port))
-		{
+		if (isPortSpecifiedInUrl(port)) {
 			return defaultPort;
 		}
 		return port;

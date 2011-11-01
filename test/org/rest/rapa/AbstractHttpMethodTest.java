@@ -8,11 +8,11 @@ import org.rest.rapa.resource.Resource;
 import org.rest.rapa.resource.ResourceImpl;
 
 public abstract class AbstractHttpMethodTest {
-	protected Url					resourceUrl;
-	protected Resource			resource;
-	protected FormatHandler		formatHandler;
-	protected HttpMethodExecutor	httpMethodExecutor;
-	protected RestClient			client;
+	protected Url resourceUrl;
+	protected Resource resource;
+	protected FormatHandler formatHandler;
+	protected HttpMethodExecutor httpMethodExecutor;
+	protected RestClient client;
 
 	@Before
 	public void before() {

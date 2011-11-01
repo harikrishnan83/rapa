@@ -14,7 +14,8 @@ public class UrlTest {
 	@Test
 	public void shouldReturnResourceSpecificUrlWithExtension() {
 		url = new Url(BASEURL, EXTENSION, true);
-		assertEquals(BASEURL + "/" + ID + "." + EXTENSION, url.getResourceSpecificURL(ID));
+		assertEquals(BASEURL + "/" + ID + "." + EXTENSION, url
+				.getResourceSpecificURL(ID));
 	}
 
 	@Test
@@ -36,19 +37,21 @@ public class UrlTest {
 	}
 
 	@Test
-	public void ShouldReturnHostNameFromGivenUrl() throws MalformedURLException{
+	public void ShouldReturnHostNameFromGivenUrl() throws MalformedURLException {
 		url = new Url(BASEURL, EXTENSION, false);
 		assertEquals("www.test.com", url.getHostName());
 	}
 
 	@Test
-	public void ShouldReturnPortIfPortIsSpecifiedInUrl() throws MalformedURLException{
+	public void ShouldReturnPortIfPortIsSpecifiedInUrl()
+			throws MalformedURLException {
 		url = new Url("http://test:8080", EXTENSION, false);
 		assertEquals(8080, url.getPort());
 	}
 
 	@Test
-	public void ShouldReturnDefaultPort80IfNoPortIsSpecifiedInUrl() throws MalformedURLException{
+	public void ShouldReturnDefaultPort80IfNoPortIsSpecifiedInUrl()
+			throws MalformedURLException {
 		url = new Url("http://test", EXTENSION, false);
 		assertEquals(80, url.getPort());
 	}

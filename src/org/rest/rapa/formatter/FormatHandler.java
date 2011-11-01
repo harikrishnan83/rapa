@@ -6,7 +6,8 @@ public interface FormatHandler {
 
 	String serialize(Resource resource) throws Exception;
 
-	Resource deserialize(String content, Class<?> resourceType) throws Exception;
+	Resource deserialize(String content, Class<? extends Resource> resourceType)
+			throws Exception;
 
 	String getExtension();
 

@@ -14,19 +14,21 @@ public class HttpClientAdapterImpl implements HttpClientAdapter {
 	private final HttpClient httpClient;
 
 	public HttpClientAdapterImpl(String username, String password, String host,
-			int port, String realm, String scheme, List<String> authenticationPrefefences) {
+			int port, String realm, String scheme,
+			List<String> authenticationPrefefences) {
 		httpClient = new HttpClient();
 		httpClient.getParams().setAuthenticationPreemptive(true);
-		
-		if (!authenticationPrefefences.isEmpty()){
-			httpClient.getParams().setParameter(AuthPolicy.AUTH_SCHEME_PRIORITY, authenticationPrefefences);
+
+		if (!authenticationPrefefences.isEmpty()) {
+			httpClient.getParams().setParameter(
+					AuthPolicy.AUTH_SCHEME_PRIORITY, authenticationPrefefences);
 		}
-		
+
 		httpClient.getState().setCredentials(
 				new AuthScope(host, port, realm, scheme),
 				new UsernamePasswordCredentials(username, password));
 	}
-	
+
 	public int executeMethod(HttpMethod method) throws IOException {
 		return httpClient.executeMethod(method);
 	}

@@ -89,7 +89,8 @@ public class HttpMethodExecutor {
 			}
 			byte[] responseBody = method.getResponseBody();
 
-			String response = responseBody != null ? new String(responseBody) : "";
+			String response = responseBody != null ? new String(responseBody)
+					: "";
 
 			insertToCache(method, url, response);
 

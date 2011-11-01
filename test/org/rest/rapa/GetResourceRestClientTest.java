@@ -44,8 +44,8 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 			throws Exception {
 		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
 				"<test>1</test>");
-		doThrow(new Exception()).when(formatHandler).deserialize("<test>1</test>",
-				ResourceImpl.class);
+		doThrow(new Exception()).when(formatHandler).deserialize(
+				"<test>1</test>", ResourceImpl.class);
 		client.getById(1, ResourceImpl.class);
 	}
 

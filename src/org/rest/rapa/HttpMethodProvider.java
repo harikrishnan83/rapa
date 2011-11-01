@@ -15,7 +15,7 @@ public class HttpMethodProvider {
 	public PutMethod putMethod() {
 		return new PutMethod();
 	}
-	
+
 	public DeleteMethod deleteMethod() {
 		return new DeleteMethod();
 	}
