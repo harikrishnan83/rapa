@@ -71,7 +71,19 @@ http://localhost:8080/customers
 
 Take a look at the wiki pages for more information. We are making the api much more easy to use in the next release. 
 
+Gradle/Maven repository urls
+----------------------------
+
+repositories {
+    mavenRepo urls: 'https://github.com/harikrishnan83/maven-repository/raw/master/'
+}
+
+dependencies {
+    compile 'org.rest.rapa:rapa:0.9.1'
+}
+
 Contributing
+------------
 
 Use it and let us know your comments. As always your comments are most welcome.
 

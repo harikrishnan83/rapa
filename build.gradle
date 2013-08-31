@@ -37,3 +37,9 @@ sourceSets {
         }
     }
 }
+
+uploadArchives {
+    repositories.mavenDeployer {
+        repository(url: "file:///home/hari/jsg/code-repo/maven-repository")
+    }
+}
