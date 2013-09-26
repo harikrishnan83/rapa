@@ -5,7 +5,7 @@ Typical Usage:
 All you need are the url, username, password, scheme and realm. You could choose to leave out properties like username, 
 password, scheme and realm if not applicable
 
-RestClient restClient = new RestClientBuilder().withUrl("http://localhost:8080/customers&quot")
+RestClient restClient = new RestClientBuilder().withUrl("http://localhost:8080/customers")
                                                .withUserName("username")
                                                .withPassword("password")
                                                .withBasicAuthentication()
