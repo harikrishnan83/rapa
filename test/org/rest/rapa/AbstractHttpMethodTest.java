@@ -2,6 +2,9 @@ package org.rest.rapa;
 
 import static org.mockito.Mockito.mock;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
@@ -13,6 +16,7 @@ public abstract class AbstractHttpMethodTest {
 	protected FormatHandler formatHandler;
 	protected HttpMethodExecutor httpMethodExecutor;
 	protected RestClient client;
+	protected Map<String, String> emptyRequestHeaders;
 
 	@Before
 	public void before() {
@@ -21,5 +25,6 @@ public abstract class AbstractHttpMethodTest {
 		formatHandler = mock(FormatHandler.class);
 		httpMethodExecutor = mock(HttpMethodExecutor.class);
 		client = new RestClient(resourceUrl, formatHandler, httpMethodExecutor);
+		emptyRequestHeaders = new HashMap<String, String>();
 	}
 }

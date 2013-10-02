@@ -18,7 +18,7 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 
 	@Test
 	public void shouldGetRequestedResource() throws Exception {
-		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
+		when(httpMethodExecutor.get("http://test.com/1", emptyRequestHeaders)).thenReturn(
 				"<test>1</test>");
 		when(formatHandler.deserialize("<test>1</test>", ResourceImpl.class))
 				.thenReturn(resource);
@@ -28,12 +28,12 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 	@Test
 	public void shouldHttpGetResource() throws Exception {
 		client.getById(1, ResourceImpl.class);
-		verify(httpMethodExecutor).get("http://test.com/1");
+		verify(httpMethodExecutor).get("http://test.com/1", emptyRequestHeaders);
 	}
 
 	@Test
 	public void shouldDeserializeResource() throws Exception {
-		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
+		when(httpMethodExecutor.get("http://test.com/1", emptyRequestHeaders)).thenReturn(
 				"<test>1</test>");
 		client.getById(1, ResourceImpl.class);
 		verify(formatHandler).deserialize("<test>1</test>", ResourceImpl.class);
@@ -42,7 +42,7 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 	@Test(expected = RestClientException.class)
 	public void shouldFailToGetResourceIfUnableToDeSerializeTheResource()
 			throws Exception {
-		when(httpMethodExecutor.get("http://test.com/1")).thenReturn(
+		when(httpMethodExecutor.get("http://test.com/1", emptyRequestHeaders)).thenReturn(
 				"<test>1</test>");
 		doThrow(new Exception()).when(formatHandler).deserialize(
 				"<test>1</test>", ResourceImpl.class);
@@ -53,7 +53,7 @@ public class GetResourceRestClientTest extends AbstractHttpMethodTest {
 	public void shouldFailToGetIfUnableToHttpGetRemoteResource()
 			throws Exception {
 		doThrow(new IOException()).when(httpMethodExecutor).get(
-				"http://test.com/1");
+				"http://test.com/1", emptyRequestHeaders);
 		client.getById(1, ResourceImpl.class);
 	}
 }

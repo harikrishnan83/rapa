@@ -16,6 +16,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HttpMethodExcecutorTest {
 	private static final String CONTENT = "content";
@@ -25,6 +27,7 @@ public class HttpMethodExcecutorTest {
 	private HttpMethodProvider mockHttpMethodProvider;
 	private Ehcache mockCache;
 	private CacheManager mockCacheManager;
+	private Map<String, String> emptyRequestHeaders = new HashMap<String, String> ();
 
 	@Before
 	public void setup() {
@@ -40,7 +43,7 @@ public class HttpMethodExcecutorTest {
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
 				mockCacheManager);
-		httpMethodExecutor.get(URL);
+		httpMethodExecutor.get(URL, emptyRequestHeaders);
 	}
 
 	@Test
@@ -50,13 +53,13 @@ public class HttpMethodExcecutorTest {
 				.thenReturn(HttpStatus.SC_OK);
 
 		String cacheControlHeaderValue = "max-age=0, public";
-		when(mockHttpMethodProvider.getMethod()).thenReturn(
+		when(mockHttpMethodProvider.getMethod(emptyRequestHeaders)).thenReturn(
 				createGetMethod(cacheControlHeaderValue));
 
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
 				mockCacheManager);
-		httpMethodExecutor.get(URL);
+		httpMethodExecutor.get(URL, emptyRequestHeaders);
 	}
 
 	@Test
@@ -68,14 +71,14 @@ public class HttpMethodExcecutorTest {
 				.thenReturn(HttpStatus.SC_OK);
 
 		String cacheControlHeaderValue = "max-age=1, public";
-		when(mockHttpMethodProvider.getMethod()).thenReturn(
+		when(mockHttpMethodProvider.getMethod(emptyRequestHeaders)).thenReturn(
 				createGetMethod(cacheControlHeaderValue));
 
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
 				mockCacheManager);
 
-		httpMethodExecutor.get(URL);
+		httpMethodExecutor.get(URL, emptyRequestHeaders);
 
 		verify(mockCache).put(any(Element.class));
 	}
@@ -89,14 +92,14 @@ public class HttpMethodExcecutorTest {
 				.thenReturn(HttpStatus.SC_OK);
 
 		String cacheControlHeaderValue = "max-age=0, public";
-		when(mockHttpMethodProvider.getMethod()).thenReturn(
+		when(mockHttpMethodProvider.getMethod(emptyRequestHeaders)).thenReturn(
 				createGetMethod(cacheControlHeaderValue));
 
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
 				mockCacheManager);
 
-		httpMethodExecutor.get(URL);
+		httpMethodExecutor.get(URL, emptyRequestHeaders);
 
 		verify(mockCache, never()).put(any(Element.class));
 	}
@@ -109,7 +112,7 @@ public class HttpMethodExcecutorTest {
 		HttpMethodExecutor httpMethodExecutor = new HttpMethodExecutor(
 				mockHttpClientAdaptor, mockHttpMethodProvider, mockCache,
 				mockCacheManager);
-		httpMethodExecutor.get(URL);
+		httpMethodExecutor.get(URL, emptyRequestHeaders);
 	}
 
 	@Test

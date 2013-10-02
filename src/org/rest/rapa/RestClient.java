@@ -1,5 +1,8 @@
 package org.rest.rapa;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.*;
 import org.rest.rapa.formatter.FormatHandler;
 import org.rest.rapa.resource.Resource;
@@ -67,9 +70,15 @@ public class RestClient {
 
 	public Resource getById(int id, Class<? extends Resource> type)
 			throws RestClientException {
+		return getById(id, type, new HashMap<String, String>());
+	}
+
+	public Resource getById(int id, Class<? extends Resource> type,
+			Map<String, String> requestHeaders) throws RestClientException {
 		try {
-			return formatHandler.deserialize(httpMethodExecutor.get(resourceUrl
-					.getResourceSpecificURL(id)), type);
+			return formatHandler.deserialize(httpMethodExecutor.get(
+					resourceUrl.getResourceSpecificURL(id), requestHeaders),
+					type);
 		} catch (Exception e) {
 			throw new RestClientException("Error while getting resource", e);
 		}

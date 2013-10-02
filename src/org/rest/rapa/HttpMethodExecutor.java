@@ -11,6 +11,7 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.methods.*;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class HttpMethodExecutor {
 
@@ -31,8 +32,8 @@ public class HttpMethodExecutor {
 		this.cacheManager = cacheManager;
 	}
 
-	public String get(String url) throws IOException {
-		return executeGet(url, httpMethodProvider.getMethod(), HttpStatus.SC_OK);
+	public String get(String url, Map<String, String> requestHeaders) throws IOException {
+		return executeGet(url, httpMethodProvider.getMethod(requestHeaders), HttpStatus.SC_OK);
 	}
 
 	String post(String content, String url, String contentType)
